@@ -1,0 +1,9 @@
+import:
+  - ~/.config/alacritty/theme-catppuccin-mocha.yml
+
+window:
+  decorations: none # remove borders and title bar
+
+font:
+  normal:
+    family: JetBrains Mono NF
