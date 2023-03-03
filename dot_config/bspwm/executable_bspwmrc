@@ -1,0 +1,72 @@
+#!/usr/bin/env sh
+
+##################
+#### MONITORS ####
+##################
+if [ "$(hostname)" = "laptop" ]; then
+    FIRST="DP-1-1"
+    SECOND="HDMI-2"
+    LAPTOP="eDP-1"
+fi
+
+MONITOR_COUNT=$(bspc query --monitors | wc -l)
+case $MONITOR_COUNT in
+    2) 
+       bspc monitor $FIRST  -d 1 2 3 4 5 6
+       bspc monitor $LAPTOP -d 7 8 9 ;;
+    3) bspc monitor $FIRST  -d 1 2 3 4
+       bspc monitor $SECOND -d 5 6 7
+       bspc monitor $LAPTOP -d 8 9 ;;
+    *) bspc monitor -d 1 2 3 4 5 6 7 8 9 ;;
+esac
+
+################
+#### CONFIG ####
+################
+bspc config automatic_scheme            longest_side
+bspc config initial_polarity            second_child
+bspc config border_width                2
+bspc config window_gap                  8
+bspc config top_padding                 32
+bspc config bottom_padding              0
+bspc config left_padding                0
+bspc config right_padding               0
+bspc config split_ratio                 0.50
+bspc config single_monocle              true
+bspc config borderless_monocle          true
+bspc config gapless_monocle             true
+bspc config focus_follows_pointer       true
+bspc config remove_disabled_monitors    true
+bspc config remove_unplugged_monitors   true
+bspc config merge_overlapping_monitors  true
+bspc config ignore_ewmh_fullscreen      all
+
+bspc config pointer_modifier            mod4
+bspc config pointer_action1             move
+bspc config pointer_action2             resize_side
+bspc config pointer_action3             resize_corner
+
+bspc wm --reorder-monitors $FIRST $SECOND $LAPTOP
+
+################
+#### COLORS ####
+################
+bspc config normal_border_color		"#4c566a"
+bspc config active_border_color	  "#1e1e1e"
+bspc config focused_border_color	"#ea7d7d"
+bspc config presel_feedback_color	"#5e81ac"
+bspc config urgent_border_color 	"#dd2727"
+
+###############
+#### RULES ####
+###############
+# bspc rule -a TelegramDesktop    sticky=on   state=floating  hidden=on
+# bspc rule -a Mailspring         sticky=off  state=tiled     hidden=on
+# bspc rule -a Bitwarden          sticky=off  state=tiled     hidden=on
+# bspc rule -a Spotify            sticky=off  state=tiled     hidden=on
+# bspc rule -a "TeamSpeak 3"      sticky=off  state=tiled
+
+###################
+#### AUTOSTART ####
+###################
+~/.fehbg &
