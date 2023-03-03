@@ -1,0 +1,165 @@
+#################
+#### GENERAL ####
+#################
+super + Escape
+	pkill -USR1 -x sxhkd && notify-send "Hotkey Daemon" "Reloaded sxhkd"
+super + shift + Escape
+	bspc wm --restart ; notify-send "Window Manager" "Restarted bspwm"
+super + shift + s
+    notify-send "Screen" "Turning off" ;\
+    sleep 0.5 ;\
+    xset dpms force standby
+super + ctrl + shift + s
+    notify-send "Screen" "Locking" ;\
+    sleep 0.5 ;\
+    xflock4
+
+######################
+#### APP LAUNCHER ####
+######################
+ctrl + space
+    rofi -show drun -modi drun,power:rofi-power-menu
+super + Return
+	alacritty
+super + shift + g
+  alacritty -e sh -c "echo n | lazygit"
+
+### SCRATCHPAD ###
+super + shift + Return
+	scratchpad scratch-term
+super + shift + space
+	scratchpad TelegramDesktop
+super + shift + m
+	scratchpad Mailspring
+super + shift + b
+	scratchpad Bitwarden
+super + shift + s
+	scratchpad Spotify
+super + shift + t
+	scratchpad TeamSpeak 3
+
+####################
+#### MEDIA KEYS ####
+####################
+XF86MonBrightness{Up,Down}
+	brightnessctl s 10%{+,-}
+
+XF86Display
+  xfce4-display-settings --minimal
+
+XF86AudioMicMute
+	amixer set Capture toggle
+XF86Audio{Raise,Lower}Volume
+	amixer -q set Master 5%{+,-} unmute
+XF86AudioMute
+	amixer set Master toggle
+
+XF86AudioPrev
+	playerctl previous
+XF86AudioPlay
+	playerctl play-pause
+XF86AudioStop
+	playerctl stop
+XF86AudioNext
+	playerctl next
+
+Print
+	xfce4-screenshooter
+shift + Print
+	xfce4-screenshooter -r
+
+# ~Pause
+# 	w=$(xdotool getactivewindow) && xdotool search "BlueJeans" windowactivate --sync key --clearmodifiers 'm' && xdotool windowactivate $w && notify-send BlueJeans "Toggled microphone"
+# shift + ~Pause
+# 	w=$(xdotool getactivewindow) && xdotool search "BlueJeans" windowactivate --sync key --clearmodifiers 'v' && xdotool windowactivate $w && notify-send BlueJeans "Toggled webcam"
+
+#######################
+#### BSPWM HOTKEYS ####
+#######################
+# close and kill
+super + {_,shift + }q
+	bspc node -{c,k}
+# send the current node to the newest preselected node
+super + y
+	bspc node -n last.!automatic.local
+
+### STATE/FLAGS ###
+# toggle gaps
+super + g
+	bspc config window_gap "$(( 8 - $(bspc config window_gap) ))"
+# toggle bar
+super + b
+	{xfce-panel-visibility hide ; bspc config top_padding +0 ,\
+          xfce-panel-visibility show ; bspc config top_padding 32 }
+# toggle fullscreen
+super + f
+    if [ -z "$(bspc query -N -n focused.fullscreen)" ]; then \
+        bspc node focused -t fullscreen; \
+    else \
+        bspc node focused -t tiled; \
+    fi
+# toggle float
+super + space
+    if [ -z "$(bspc query -N -n focused.floating)" ]; then \
+        bspc node focused -t floating; \
+    else \
+        bspc node focused -t tiled; \
+    fi
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+### FOCUS/SWAP ###
+# rotate the whole tree
+super + {_,shift + } r
+    bspc node @/ -C {forward,backward}
+# rotate parent & child
+super + {_,shift + } e
+	bspc node @parent -R {90,-90} --follow
+# focus the node in the given direction
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+# swap the node in the given direction
+super + shift + {h,j,k,l}
+    d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+# focus the next/previous desktop in the current monitor
+super + shift + {Left,Right}
+	bspc desktop -f {prev,next}.local
+# focus the last desktop
+super + {_,shift + } Tab
+	bspc {desktop,monitor} -f last
+# send to last monitor
+super + shift + equal
+    bspc node -m last --follow
+# balance size of windows
+super + shift + 0
+	bspc node @/ --balance
+# focus or send to the given desktop
+super + {_,shift + }{1-9}
+	bspc {desktop -f,node -d} "^{1-9}"
+
+### PRESELECT ###
+# preselect the direction
+super + alt + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+# preselect the ratio
+super + alt + {1-9}
+	bspc node -o 0.{1-9}
+# cancel the preselection for the focused desktop
+super + alt + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+### MOVE/RESIZE ###
+# expand/contract a window by moving one of its side outward/inward
+super + ctrl + {h,j,k,l}
+  STEP=20; SELECTION={1,2,3,4}; \
+  bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
+  bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
+# move a floating window
+super + {Left,Down,Up,Right}
+  STEP=40; \
+	bspc node -v {-$STEP 0,0 $STEP,0 -$STEP,$STEP 0}
+
