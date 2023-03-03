@@ -3,7 +3,7 @@
 -- ###############
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "onedarker"
+lvim.colorscheme = "catppuccin-mocha"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -15,6 +15,7 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 -- ###############
 lvim.plugins = {
   { "romgrk/nvim-treesitter-context" },
+  { "catppuccin/nvim", as = "catppuccin" },
 }
 
 -- ###################
