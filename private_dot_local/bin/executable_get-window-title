@@ -1,0 +1,4 @@
+#!/usr/bin/env dash
+# This script prints the first 120 characters of the currently focused window name
+
+echo "$(xdotool getactivewindow getwindowname)" | cut -c 1-120
