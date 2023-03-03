@@ -1,0 +1,11 @@
+[user]
+  name = Kevin Cali
+  email = 20154415+kevincali@users.noreply.github.com
+  signingkey = 80286A18295547B0
+[commit]
+  gpgsign = true
+[core]
+  editor = lvim
+  excludesfile = /home/cake/.config/git/ignore
+[safe]
+  directory = *
