@@ -18,7 +18,7 @@ super + ctrl + shift + s
 #### APP LAUNCHER ####
 ######################
 ctrl + space
-    rofi -show drun -modi drun,power:rofi-power-menu
+    rofi -show drun -modi drun,power:rofi-power-menu -theme theme-catppuccin-mocha
 super + Return
 	alacritty
 super + shift + g
