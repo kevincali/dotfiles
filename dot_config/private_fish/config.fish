@@ -10,6 +10,7 @@ source $HOME/.asdf/plugins/java/set-java-home.fish
 
 if status is-interactive
   alias rm="rm -iv"
+  alias lg="lazygit"
   alias zola="flatpak run org.getzola.zola"
 end
 
