@@ -9,3 +9,5 @@
   excludesfile = /home/cake/.config/git/ignore
 [safe]
   directory = *
+[init]
+	defaultBranch = main
