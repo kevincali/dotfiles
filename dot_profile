@@ -12,4 +12,6 @@ export SXHKD_SHELL=/usr/bin/dash
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
 export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/.asdf/bin"
+export PATH="$PATH:$HOME/.asdf/shims"
 export PATH="$PATH:$GOPATH/bin"
