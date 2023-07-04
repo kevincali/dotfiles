@@ -15,7 +15,7 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 -- ###############
 lvim.plugins = {
   { "romgrk/nvim-treesitter-context" },
-  { "catppuccin/nvim", as = "catppuccin" },
+  { "catppuccin/nvim", name = "catppuccin" },
 }
 
 -- ###################
