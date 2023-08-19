@@ -15,3 +15,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.asdf/bin"
 export PATH="$PATH:$HOME/.asdf/shims"
 export PATH="$PATH:$GOPATH/bin"
+
+export GOPRIVATE=dev.azure.com
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
