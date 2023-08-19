@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-# This script adds commented `Co-authored-by: ` entries to the commit message
+# This script adds following comments to the commit message
+# - `Co-authored-by: ` entries 
+# - conventional commits docs (see https://gist.github.com/brianclements/841ea7bffdb01346392c#type)
 
 # Called by "git commit" with the name of the file that has the
 # commit message, followed by the description of the commit
@@ -18,9 +20,20 @@ COMMIT_SOURCE=$2
 
 if [ -z "$COMMIT_SOURCE" ]
 then 
+  echo -e '\n### Co-authors' >> "$COMMIT_MSG_FILE"
   while read -r line; 
   do
-    printf '#Co-authored-by: '>> "$COMMIT_MSG_FILE"
+    printf '# Co-authored-by: ' >> "$COMMIT_MSG_FILE"
     echo "$line" >> "$COMMIT_MSG_FILE"
   done < "$HOME"/.git_coauthors 
+
+  echo -e '\n### Conventional commits: https://gist.github.com/brianclements/841ea7bffdb01346392c#type' >> "$COMMIT_MSG_FILE"
+  echo '# build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)' >> "$COMMIT_MSG_FILE"
+  echo '# ci: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)' >> "$COMMIT_MSG_FILE"
+  echo '# docs: Documentation only changes' >> "$COMMIT_MSG_FILE"
+  echo '# feat: A new feature' >> "$COMMIT_MSG_FILE"
+  echo '# fix: A bug fix' >> "$COMMIT_MSG_FILE"
+  echo '# perf: A code change that improves performance' >> "$COMMIT_MSG_FILE"
+  echo '# refactor: A code change that neither fixes a bug nor adds a feature' >> "$COMMIT_MSG_FILE"
+  echo '# test: Adding missing tests or correcting existing tests' >> "$COMMIT_MSG_FILE"
 fi

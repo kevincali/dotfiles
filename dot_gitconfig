@@ -6,7 +6,9 @@
 [core]
   sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/private -F none"
   editor = lvim
+  hooksPath = /home/cake/.config/git/hooks/
   excludesfile = /home/cake/.config/git/ignore
+	autocrlf = input
 
 [includeIf "gitdir:~/work/"]
   path = ~/work/.gitconfig
@@ -19,3 +21,4 @@
 
 [init]
   defaultBranch = main
+
