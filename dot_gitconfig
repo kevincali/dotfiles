@@ -10,9 +10,6 @@
   excludesfile = /home/cake/.config/git/ignore
 	autocrlf = input
 
-[includeIf "gitdir:~/work/"]
-  path = ~/work/.gitconfig
-
 [commit]
   gpgsign = true
 
@@ -21,4 +18,7 @@
 
 [init]
   defaultBranch = main
+
+[includeIf "gitdir:~/work/"]
+  path = ~/work/.gitconfig
 
