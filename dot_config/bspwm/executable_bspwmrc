@@ -3,23 +3,18 @@
 ##################
 #### MONITORS ####
 ##################
-if [ "$(hostname)" = "laptop" ]; then
-    FIRST="DP-1-1"
-    SECOND="HDMI-2"
-    LAPTOP="eDP-1"
-elif [ "$(hostname)" = "work" ]; then
-    FIRST="HDMI-1"
-    LAPTOP="eDP-1"
-fi
+FIRST=$(xrandr | awk '$3 ~ 3840x1600 {print $1}')
+SECOND=$(xrandr | awk '$3 ~ 2560x1440 {print $1}')
+LAPTOP="eDP-1"
 
 MONITOR_COUNT=$(bspc query --monitors | wc -l)
-case $MONITOR_COUNT in
+case "$MONITOR_COUNT" in
     2) 
-       bspc monitor $FIRST  -d 1 2 3 4 5
-       bspc monitor $LAPTOP -d 6 7 8 9 ;;
-    3) bspc monitor $FIRST  -d 1 2 3 4
-       bspc monitor $SECOND -d 5 6 7
-       bspc monitor $LAPTOP -d 8 9 ;;
+       bspc monitor "$FIRST"  -d 1 2 3 4 5
+       bspc monitor "$LAPTOP" -d 6 7 8 9 ;;
+    3) bspc monitor "$FIRST"  -d 1 2 3 4
+       bspc monitor "$SECOND" -d 5 6 7
+       bspc monitor "$LAPTOP" -d 8 9 ;;
     *) bspc monitor -d 1 2 3 4 5 6 7 8 9 ;;
 esac
 
@@ -49,7 +44,7 @@ bspc config pointer_action1             move
 bspc config pointer_action2             resize_side
 bspc config pointer_action3             resize_corner
 
-bspc wm --reorder-monitors $FIRST $SECOND $LAPTOP
+bspc wm --reorder-monitors "$FIRST" "$SECOND" "$LAPTOP"
 
 ################
 #### COLORS ####
