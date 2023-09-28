@@ -2,6 +2,8 @@ theme = "catppuccin_mocha"
 
 [editor]
 true-color = true
+auto-save = true
+completion-replace = true
 
 [editor.cursor-shape]
 insert= "bar"
