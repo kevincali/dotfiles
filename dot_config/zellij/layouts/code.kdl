@@ -17,12 +17,13 @@ layout {
 		mypane command="fish"
     }
 	tab name="shell 2" focus=false {
-		mypane command="fish"
+	    pane split_direction="horizontal" {
+			mypane command="fish" size="80%"
+			mypane command="fish" size="20%"
+	    }
     }
 	tab name="files" focus=false {
-		mypane command="tree" {
-			args "--gitignore" "-C"
-		}
+		mypane command="yazi"
 	}
 	tab name="git" focus=false {
 		mypane command="lazygit"
