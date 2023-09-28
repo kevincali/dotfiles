@@ -11,6 +11,10 @@ if status is-interactive
 
   alias rm="rm -iv"
   alias lg="lazygit"
+  alias ze="zellij --layout code"
+
   alias m="go build -ldflags='-linkmode external' cmd/service/main.go && MIRRORD_PROGRESS_MODE=off mirrord exec -f .mirrord/mirrord.yaml ./main"
+  alias md="MIRRORD_PROGRESS_MODE=off mirrord exec -f .mirrord/mirrord.yaml dlv -- debug cmd/service/main.go"
 end
 
+zoxide init fish | source
