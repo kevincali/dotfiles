@@ -19,6 +19,6 @@
 [init]
   defaultBranch = main
 
-[includeIf "gitdir:~/work/"]
-  path = ~/work/.gitconfig
+[includeIf "gitdir:~/work/azure"]
+  path = ~/work/azure/.gitconfig
 
