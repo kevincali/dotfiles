@@ -20,9 +20,9 @@ super + ctrl + shift + s
 ctrl + space
     rofi -show drun -modi drun,power:rofi-power-menu,http:rofi-http-status-codes -theme theme-catppuccin-mocha
 super + Return
-	alacritty
+	wezterm
 super + shift + g
-  alacritty -e sh -c "echo n | lazygit"
+	wezterm -e sh -c "echo n | lazygit"
 
 ### SCRATCHPAD ###
 super + shift + Return
