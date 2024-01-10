@@ -5,7 +5,7 @@
 
 [core]
   sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/private -F none"
-  editor = lvim
+  editor = hx
   hooksPath = /home/cake/.config/git/hooks/
   excludesfile = /home/cake/.config/git/ignore
 	autocrlf = input
@@ -19,6 +19,5 @@
 [init]
   defaultBranch = main
 
-[includeIf "gitdir:~/work/azure"]
+[includeIf "gitdir:~/work/azure/"]
   path = ~/work/azure/.gitconfig
-
