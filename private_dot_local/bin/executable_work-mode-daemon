@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# This script reacts to opening and closing Slack
+
+datetime="[$(date "+%F %T")]"
+slack_status="closed"
+
+while true; do
+    if pgrep -x "slack" >/dev/null; then
+        if [ "$slack_status" == "closed" ]; then
+            echo "$datetime Slack is opened!"
+
+            nmcli connection up VPN
+
+            slack_status="opened"
+        fi
+    else
+        if [ "$slack_status" == "opened" ]; then
+            echo "$datetime Slack is closed!"
+
+            nmcli connection down VPN
+
+            slack_status="closed"
+        fi
+    fi
+
+    sleep 60
+done
