@@ -3,18 +3,29 @@
 ##################
 #### MONITORS ####
 ##################
+# bug workaround:
+# bspc sometimes shows less monitors than xrandr
+# running xrandr --auto seems to fix it
+BSPC_MONITOR_COUNT=$(bspc query --monitors | wc -l)
+XRANDR_MONITOR_COUNT=$(xrandr --query | grep -c " connected")
+if [ "$BSPC_MONITOR_COUNT" != "$XRANDR_MONITOR_COUNT" ]; then
+   xrandr --auto
+fi
+
 MAIN=$(xrandr | awk '$3 ~ 3840x1600 {print $1}')
 SECONDARY=$(xrandr | awk '$3 ~ 2560x1440 {print $1}')
 LAPTOP="eDP-1"
 
-MONITOR_COUNT=$(bspc query --monitors | wc -l)
-case "$MONITOR_COUNT" in
+case "$BSPC_MONITOR_COUNT" in
     2) bspc monitor "$LAPTOP" -d 1 2
-       bspc monitor "$MAIN"  -d 3 4 5 6 7 8 9 ;;
+       bspc monitor "$MAIN"  -d 3 4 5 6 7 8 9
+       ;;
     3) bspc monitor "$LAPTOP" -d 1 2
        bspc monitor "$MAIN"  -d 3 4 5 6
-       bspc monitor "$SECONDARY" -d 7 8 9 ;;
-    *) bspc monitor -d 1 2 3 4 5 6 7 8 9 ;;
+       bspc monitor "$SECONDARY" -d 7 8 9
+       ;;
+    *) bspc monitor -d 1 2 3 4 5 6 7 8 9
+       ;;
 esac
 
 ################
@@ -36,7 +47,7 @@ bspc config focus_follows_pointer       true
 bspc config remove_disabled_monitors    true
 bspc config remove_unplugged_monitors   true
 bspc config merge_overlapping_monitors  true
-bspc config ignore_ewmh_fullscreen      all
+bspc config ignore_ewmh_fullscreen      none
 
 bspc config pointer_modifier            mod4
 bspc config pointer_action1             move
@@ -57,13 +68,26 @@ bspc config urgent_border_color 	"#dd2727"
 ###############
 #### RULES ####
 ###############
-# bspc rule -a TelegramDesktop    sticky=on   state=floating  hidden=on
-# bspc rule -a Mailspring         sticky=off  state=tiled     hidden=on
-# bspc rule -a Bitwarden          sticky=off  state=tiled     hidden=on
-# bspc rule -a Spotify            sticky=off  state=tiled     hidden=on
-# bspc rule -a "TeamSpeak 3"      sticky=off  state=tiled
+case "$BSPC_MONITOR_COUNT" in
+    2)
+      bspc rule -a Slack desktop=^1
+      bspc rule -a "TeamSpeak 3" desktop=^1
+      bspc rule -a TelegramDesktop desktop=^1
+      bspc rule -a discord desktop=^2
+      bspc rule -a Spotify desktop=^2
+      bspc rule -a browser2 desktop=^3
+      bspc rule -a browser3 desktop=^4
+      bspc rule -a browser1 desktop=^5
+      ;;
+    *)
+      bspc rule -a Slack desktop=^1
+      bspc rule -a browser2 desktop=^3
+      bspc rule -a browser3 desktop=^4
+      bspc rule -a browser1 desktop=^5
+      bspc rule -a "TeamSpeak 3" desktop=^7
+      bspc rule -a TelegramDesktop desktop=^7
+      bspc rule -a discord desktop=^7
+      bspc rule -a Spotify desktop=^7
+      ;;
+esac
 
-###################
-#### AUTOSTART ####
-###################
-~/.fehbg &
