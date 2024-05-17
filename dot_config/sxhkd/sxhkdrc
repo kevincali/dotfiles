@@ -68,10 +68,10 @@ Print
 shift + Print
 	xfce4-screenshooter -r
 
-# ~Pause
-# 	w=$(xdotool getactivewindow) && xdotool search "BlueJeans" windowactivate --sync key --clearmodifiers 'm' && xdotool windowactivate $w && notify-send BlueJeans "Toggled microphone"
-# shift + ~Pause
-# 	w=$(xdotool getactivewindow) && xdotool search "BlueJeans" windowactivate --sync key --clearmodifiers 'v' && xdotool windowactivate $w && notify-send BlueJeans "Toggled webcam"
+~Pause
+	w=$(xdotool getactivewindow) && xdotool search "Microsoft Teams" windowactivate --sync key --clearmodifiers 'Ctrl+Shift+m' && xdotool windowactivate $w && notify-send Teams "Toggled microphone"
+shift + ~Pause
+	w=$(xdotool getactivewindow) && xdotool search "Microsoft Teams" windowactivate --sync key --clearmodifiers 'Ctrl+Shift+o' && xdotool windowactivate $w && notify-send Teams "Toggled webcam"
 
 #######################
 #### BSPWM HOTKEYS ####
@@ -123,8 +123,8 @@ super + {h,j,k,l}
 super + shift + {h,j,k,l}
     d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
 # focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
+super + {p,comma,period}
+	bspc node -f @{parent,first,second}
 # focus the next/previous desktop in the current monitor
 super + shift + {Left,Right}
 	bspc desktop -f {prev,next}.local
