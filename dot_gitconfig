@@ -8,10 +8,14 @@
   editor = hx
   hooksPath = /home/cake/.config/git/hooks/
   excludesfile = /home/cake/.config/git/ignore
-	autocrlf = input
+  autocrlf = input
 
 [commit]
   gpgsign = true
+
+# disabled due to https://github.com/golang/go/issues/6968
+# [url "ssh://git@github.com"]
+#   insteadOf = https://github.com
 
 [safe]
   directory = *
