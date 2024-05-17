@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 export XDG_CONFIG_HOME="$HOME"/.config
 export XDG_CACHE_HOME="$HOME"/.cache
@@ -16,9 +16,10 @@ export PATH="$PATH:$HOME/.asdf/bin"
 export PATH="$PATH:$HOME/.asdf/shims"
 export PATH="$PATH:$GOPATH/bin"
 
-export GOPRIVATE=dev.azure.com
+export GOPRIVATE="github.com/kevincali/*,github.com/Clarilab/*,dev.azure.com"
 
-export EDITOR="/home/linuxbrew/.linuxbrew/bin/hx"
+export EDITOR="$(which hx)"
 export VISUAL="$EDITOR"
+export TERMINAL="$(which wezterm)"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
