@@ -10,7 +10,7 @@ layout {
     }
 	tab name="editor" focus=true {
 		mypane command="fish" {
-			args "-c" "zellij action rename-tab $(basename $PWD) && hx"
+			args "-c" "zellij action rename-tab $(basename $PWD) && helix"
 		}
     }
 	tab name="shell 1" focus=false {
