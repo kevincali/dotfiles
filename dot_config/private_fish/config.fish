@@ -1,13 +1,11 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
+source $XDG_CONFIG_HOME/fish/work.fish
 
 if status is-interactive
+    alias e="zellij --layout code"
     alias hx="helix"
-    alias k="kubectl"
     alias lg="lazygit"
-    alias md="MIRRORD_PROGRESS_MODE=off mirrord exec -f .mirrord/mirrord.yaml dlv -- debug cmd/service/main.go"
-    alias m="go build -ldflags='-linkmode external' cmd/service/main.go && MIRRORD_PROGRESS_MODE=off mirrord exec -f .mirrord/mirrord.yaml ./main"
     alias rm="rm -iv"
-    alias ze="zellij --layout code"
 
     function fish_greeting
     end
@@ -22,5 +20,6 @@ if status is-interactive
     set fzf_fd_opts --hidden --no-ignore
 
     atuin init fish --disable-up-arrow | source
+    zellij setup --generate-completion fish | source
     zoxide init fish | source
 end
