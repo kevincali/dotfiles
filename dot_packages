@@ -15,8 +15,10 @@ cachyos-extra-v3/gsimplecal
 cachyos-extra-v3/helix
 cachyos-extra-v3/keyd
 cachyos-extra-v3/lazygit
+cachyos-extra-v3/qalculate-gtk
 cachyos-extra-v3/qt5-wayland
 cachyos-extra-v3/rofi-wayland
+cachyos-extra-v3/seahorse
 cachyos-extra-v3/teamspeak3
 cachyos-extra-v3/telegram-desktop
 cachyos-extra-v3/wtype
