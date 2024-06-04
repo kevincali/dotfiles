@@ -51,3 +51,7 @@ W = [
     ":write",
     ]
 q = ":quit"
+
+[keys.select.space]
+s = ":pipe sort"
+S = ":pipe sort --reverse"
