@@ -5,7 +5,7 @@
 
 [core]
   sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/private -F none"
-  editor = hx
+  editor = helix
   hooksPath = /home/cake/.config/git/hooks/
   excludesfile = /home/cake/.config/git/ignore
   autocrlf = input
