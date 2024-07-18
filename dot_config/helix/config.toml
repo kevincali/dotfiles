@@ -1,6 +1,7 @@
 theme = "catppuccin_mocha"
 
 [editor]
+line-number = "relative"
 true-color = true
 auto-save = true
 completion-replace = true
@@ -51,6 +52,7 @@ W = [
     ":write",
     ]
 q = ":quit"
+l = ":lsp-restart"
 
 [keys.select.space]
 s = ":pipe sort"

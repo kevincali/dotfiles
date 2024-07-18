@@ -1,0 +1,10 @@
+@theme "catppuccin-mocha"
+
+* {
+    width: 1400px;
+    font: "Noto Sans Mono 16";
+}
+
+window {
+    height: 1000px;
+}

@@ -1,0 +1,8 @@
+@theme "catppuccin-mocha"
+
+configuration{
+    display-drun: " app";
+    drun-display-format: "{name}";
+    show-icons: true;
+    sidebar-mode: true;
+}

@@ -1,6 +1,5 @@
 [manager]
 linemode = "mtime"
-ratio = [0, 1, 0]
 show_hidden = true
 sort_by = "modified"
 sort_reverse = true
