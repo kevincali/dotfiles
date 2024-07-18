@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# This script lists all project directories.
+# Thanks to zoxide, the directories are sorted by their usage frequency.
+# Directories that are not tracked by zoxide will be appended to the list.
+
+search_dirs=(~/git ~/work/github ~/work/azure ~/.config ~/.local)
+matched_dirs=()
+found_dirs=()
+
+mapfile -t all_found_dirs < <(find "${search_dirs[@]}" -mindepth 1 -maxdepth 1 -type d)
+
+# Convert to a set for more efficient membership check
+declare -A found_dirs_set
+for dir in "${all_found_dirs[@]}"; do
+    found_dirs_set["$dir"]=1
+done
+
+# Check zoxide directories against the found_dirs_set
+while read -r dir; do
+    if [[ -n "${found_dirs_set["$dir"]}" ]]; then
+        matched_dirs+=("$dir")
+    fi
+done < <(zoxide query --list)
+
+# Append directories from find that are not in matched_dirs
+for dir in "${all_found_dirs[@]}"; do
+    # shellcheck disable=SC2076
+    if [[ ! " ${matched_dirs[*]} " =~ " $dir " ]]; then
+        found_dirs+=("$dir")
+    fi
+done
+
+# Replace $HOME with ~
+printf '%s\n' "${matched_dirs[@]}" | sed "s|$HOME|~|g"
+printf '%s\n' "${found_dirs[@]}" | sed "s|$HOME|~|g"
