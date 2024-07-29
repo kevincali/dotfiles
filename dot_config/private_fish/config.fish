@@ -1,5 +1,33 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 source $XDG_CONFIG_HOME/fish/work.fish
+set -gx XDG_CACHE_HOME "$HOME"/.cache
+set -gx XDG_CONFIG_HOME "$HOME"/.config
+set -gx XDG_DATA_HOME "$HOME"/.local/share
+set -gx XDG_STATE_HOME "$HOME"/.local/state
+
+set -gx XDG_CURRENT_DESKTOP Hyprland
+set -gx XDG_SESSION_DESKTOP Hyprland
+set -gx XDG_SESSION_TYPE wayland
+
+set -gx GPG_TTY $(tty)
+
+set -gx GOPATH "$XDG_DATA_HOME"/go
+set -gx GOPRIVATE "github.com/kevincali/*,github.com/Clarilab/*,dev.azure.com"
+
+set -gx PATH "$PATH:$HOME/.local/bin"
+set -gx PATH "$PATH:$HOME/.cargo/bin"
+set -gx PATH "$PATH:$HOME/.asdf/bin"
+set -gx PATH "$PATH:$HOME/.asdf/shims"
+set -gx PATH "$PATH:$GOPATH/bin"
+
+if type -q hx
+    set -gx EDITOR "$(which hx)"
+end
+if type -q helix
+    set -gx EDITOR "$(which helix)"
+end
+set -gx VISUAL "$EDITOR"
+set -gx TERMINAL "$(which alacritty)"
 
 if status is-interactive
     # aliases
