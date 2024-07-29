@@ -1,48 +1,75 @@
-@define-color alert             #A94952; /* DARK SALMON */
-@define-color backlight         #E0A875; /* LIGHT APRICOT */
-@define-color battery           #90C7B8; /* SEAFOAM GREEN */
-@define-color clock             #77C5DE; /* SKY BLUE */
-@define-color clock-date        #94CFA1; /* LIGHT GREEN */
-@define-color cpu               #7DADEB; /* BABY BLUE */
-@define-color focused           #94CFA1; /* LIGHT GREEN */
-@define-color hover             #D67D8A; /* LIGHT CORAL */
-@define-color launcher          #77C5DE; /* SKY BLUE */
-@define-color media             #DAA2A2; /* LIGHT CORAL */
-@define-color memory            #C59ED4; /* LAVENDER */
-@define-color network           #A386E2; /* MEDIUM PURPLE */
-@define-color occupied          #D57391; /* PINK */
-@define-color power             #D57391; /* PINK */
-@define-color primary           #0E1116; /* GUNMETAL */
-@define-color privacy           #9BC7D7; /* LIGHT SLATE GRAY */
-@define-color pulseaudio        #E5C69A; /* PALE GOLD */
-@define-color secondary         #90C7B8; /* SEAFOAM GREEN */
-@define-color temperature       #DC768B; /* LIGHT CORAL */
-@define-color tray              #90C7B8; /* SEAFOAM GREEN */
-@define-color updates           #D67D8A; /* LIGHT CORAL */
-@define-color wallpaper         #B9BBFF; /* LAVENDER BLUE */
-@define-color weather           #91D6A5; /* LIGHT GREEN */
-@define-color workspaces        #3C4450; /* SLATE GRAY */
-@define-color workspaces-active #E6E6E6; /* LIGHT GREY */
-@define-color workspaces-button #6B7789; /* SLATE GRAY */
-@define-color workspaces-urgent #CD4047; /* INDIAN RED */
+@define-color alert #A94952;
+/* DARK SALMON */
+@define-color backlight #E0A875;
+/* LIGHT APRICOT */
+@define-color battery #90C7B8;
+/* SEAFOAM GREEN */
+@define-color clock #77C5DE;
+/* SKY BLUE */
+@define-color clock-date #94CFA1;
+/* LIGHT GREEN */
+@define-color cpu #7DADEB;
+/* BABY BLUE */
+@define-color focused #94CFA1;
+/* LIGHT GREEN */
+@define-color hover #D67D8A;
+/* LIGHT CORAL */
+@define-color launcher #77C5DE;
+/* SKY BLUE */
+@define-color media #DAA2A2;
+/* LIGHT CORAL */
+@define-color memory #C59ED4;
+/* LAVENDER */
+@define-color network #A386E2;
+/* MEDIUM PURPLE */
+@define-color occupied #D57391;
+/* PINK */
+@define-color power #D57391;
+/* PINK */
+@define-color primary #0E1116;
+/* GUNMETAL */
+@define-color privacy #9BC7D7;
+/* LIGHT SLATE GRAY */
+@define-color pulseaudio #E5C69A;
+/* PALE GOLD */
+@define-color secondary #90C7B8;
+/* SEAFOAM GREEN */
+@define-color temperature #DC768B;
+/* LIGHT CORAL */
+@define-color tray #90C7B8;
+/* SEAFOAM GREEN */
+@define-color updates #D67D8A;
+/* LIGHT CORAL */
+@define-color wallpaper #B9BBFF;
+/* LAVENDER BLUE */
+@define-color weather #91D6A5;
+/* LIGHT GREEN */
+@define-color workspaces #3C4450;
+/* SLATE GRAY */
+@define-color workspaces-active #E6E6E6;
+/* LIGHT GREY */
+@define-color workspaces-button #6B7789;
+/* SLATE GRAY */
+@define-color workspaces-urgent #CD4047;
+/* INDIAN RED */
 
 * {
-    border: none;
-    border-radius: 20px;
-    font-family: Noto Sans;
-    font-size: 20px;
-    font-weight: 600;
+  border: none;
+  border-radius: 20px;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 @keyframes blink {
-    to {
-        background-color: @alert;
-        color: @secondary;
-    }
+  to {
+    background-color: @alert;
+    color: @secondary;
+  }
 }
 
 window#waybar {
-    background: transparent;
+  background: transparent;
 }
 
 /***********/
@@ -55,81 +82,89 @@ window#waybar {
 #cpu,
 #custom-media,
 #custom-weather,
+#custom-webcam,
 #privacy-item,
 #pulseaudio,
 #temperature,
 #tray,
 #workspaces {
-    margin-bottom: 0px;
-    margin-left: 8px;
-    margin-top: 4px;
-    padding: 0 10px;
-    transition: none;
-    color: @primary;
+  margin-bottom: 0px;
+  margin-left: 8px;
+  margin-top: 4px;
+  padding: 0 10px;
+  transition: none;
+  color: @primary;
 }
 
-#battery, #battery.charging, #battery.plugged {
-    background-color: @battery;
+#battery,
+#battery.charging,
+#battery.plugged {
+  background-color: @battery;
 }
 
 #battery.critical:not(.charging) {
-    animation: blink 0.5s linear infinite alternate;
+  animation: blink 0.5s linear infinite alternate;
 }
 
 #clock {
-    background-color: @clock;
+  background-color: @clock;
 }
 
 #clock.date {
-    background-color: @clock-date;
+  background-color: @clock-date;
 }
 
 #cpu {
-    background-color: @cpu;
+  background-color: @cpu;
 }
 
 #custom-media {
-    background-color: @media;
+  background-color: @media;
 }
 
 #custom-weather {
-    background-color: @weather;
-    margin-left: 0px;
+  background-color: @weather;
+  margin-left: 0px;
 }
 
 #memory {
-    background-color: @memory;
+  background-color: @memory;
 }
 
 #privacy-item {
-    background-color: @privacy;
+  background-color: @privacy;
+}
+
+#custom-webcam {
+  background-color: @privacy;
+  margin-left: 12px;
 }
 
 #pulseaudio {
-    background-color: @pulseaudio;
+  background-color: @pulseaudio;
 }
 
 #temperature {
-    background-color: @temperature;
+  background-color: @temperature;
 }
 
 #tray {
-    background-color: @tray;
+  background-color: @tray;
 }
 
 #workspaces {
-    background-color: @workspaces;
+  background-color: @workspaces;
 }
 
 #workspaces button {
-    color: @workspaces-button;
+  color: @workspaces-button;
 }
 
 #workspaces button.active {
-    color: @workspaces-active;
+  color: @workspaces-active;
 }
 
 #workspaces button.urgent {
-    background-color: @workspaces-urgent;
-    color: @secondary;
+  background-color: @workspaces-urgent;
+  color: @secondary;
 }

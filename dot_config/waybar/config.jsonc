@@ -9,6 +9,7 @@
     "cpu",
     "temperature",
     "privacy",
+    "custom/webcam",
   ],
   "modules-center": [
     "hyprland/workspaces",
@@ -89,6 +90,11 @@
     "exec-if": "ping wttr.in -c1",
     "format": "{}",
     "interval": 3600,
+  },
+  "custom/webcam": {
+    "exec": "$HOME/.config/waybar/webcam.sh",
+    "interval": 30,
+    "return-type": "json"
   },
   "hyprland/workspaces": {
     "all-outputs": true,
