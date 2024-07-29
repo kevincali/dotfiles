@@ -1,5 +1,10 @@
-source /usr/share/cachyos-fish-config/cachyos-config.fish
-source $XDG_CONFIG_HOME/fish/work.fish
+if test -e /usr/share/cachyos-fish-config/cachyos-config.fish
+    source /usr/share/cachyos-fish-config/cachyos-config.fish
+end
+if test -e $XDG_CONFIG_HOME/fish/work.fish
+    source $XDG_CONFIG_HOME/fish/work.fish
+end
+
 set -gx XDG_CACHE_HOME "$HOME"/.cache
 set -gx XDG_CONFIG_HOME "$HOME"/.config
 set -gx XDG_DATA_HOME "$HOME"/.local/share
@@ -32,7 +37,9 @@ set -gx TERMINAL "$(which alacritty)"
 if status is-interactive
     # aliases
     alias e="zellij --layout code"
-    alias hx="helix"
+    if type -q helix
+        alias hx="helix"
+    end
     alias lg="lazygit"
     alias rm="rm -iv"
 
@@ -56,8 +63,16 @@ if status is-interactive
     set fzf_fd_opts --hidden --no-ignore
 
     # sourcing
-    atuin init fish --disable-up-arrow | source
-    direnv hook fish | source
-    zellij setup --generate-completion fish | source
-    zoxide init fish | source
+    if type -q atuin
+        atuin init fish --disable-up-arrow | source
+    end
+    if type -q direnv
+        direnv hook fish | source
+    end
+    if type -q zellij
+        zellij setup --generate-completion fish | source
+    end
+    if type -q zoxide
+        zoxide init fish | source
+    end
 end
