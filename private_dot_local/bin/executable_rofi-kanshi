@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# This script defines a rofi mode that allows switching to a kanshi profile.
+
+if [ -z "$1" ]; then
+    grep -oP 'profile "\K[^"]+' "$XDG_CONFIG_HOME/kanshi/config"
+else
+    kanshictl switch "$1"
+fi
