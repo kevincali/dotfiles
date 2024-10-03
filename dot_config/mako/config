@@ -1,7 +1,9 @@
-background-color=#3B4252dd
-border-color=#4C566A
-border-radius=20
-default-timeout=10000
+height=500
+width=500
 font=Noto Sans 20
+default-timeout=10000
 max-visible=10
+border-radius=20
+background-color=#2E3440
+border-color=#4C566A
 text-color=#ECEFF4
