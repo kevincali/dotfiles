@@ -41,7 +41,8 @@ if status is-interactive
         alias hx="helix"
     end
     alias lg="lazygit"
-    alias rm="rm -iv"
+    alias rm="rm -i --verbose"
+    alias lr="eza --all --long --sort=modified --icons" # recently modified
 
     # custom bindings
     bind -M insert \ce forward-bigword
