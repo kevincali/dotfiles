@@ -9,6 +9,7 @@
   hooksPath = /home/cake/.config/git/hooks/
   excludesfile = /home/cake/.config/git/ignore
   autocrlf = input
+  pager = delta
 
 [commit]
   gpgsign = true
@@ -16,6 +17,8 @@
 # disabled due to https://github.com/golang/go/issues/6968
 # [url "ssh://git@github.com"]
 #   insteadOf = https://github.com
+[push]
+  autoSetupRemote = true
 
 [safe]
   directory = *
@@ -25,3 +28,15 @@
 
 [includeIf "gitdir:~/work/azure/"]
   path = ~/work/azure/.gitconfig
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
