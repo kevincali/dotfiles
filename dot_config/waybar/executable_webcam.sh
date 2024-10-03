@@ -3,7 +3,7 @@
 # Source: https://github.com/Alexays/Waybar/issues/2705#issuecomment-2253250703
 
 # get programs using the video* endpoint
-ps -eo user,pid,cmd -q "$(fuser /dev/video* 2>/dev/null | xargs)" |\
+ps -eo user,pid,cmd -q "$(fuser /dev/video* 2>/dev/null | xargs)" 2>/dev/null|\
 
 # omit the column headings and wireplumber lines
 sed -n "1!p" |\
