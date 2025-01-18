@@ -27,6 +27,9 @@ keybinds {
         bind "Alt 9" { GoToTab 9; }
 
         bind "Alt f" { ToggleFloatingPanes; }
+
+        bind "PageUp" { HalfPageScrollUp; }
+        bind "PageDown" { HalfPageScrollDown; }
     }
 }
 

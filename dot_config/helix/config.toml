@@ -1,6 +1,7 @@
 theme = "catppuccin_mocha"
 
 [editor]
+bufferline = "multiple"
 line-number = "relative"
 true-color = true
 auto-save = true
@@ -39,7 +40,9 @@ X = "extend_line_above"
 
 [keys.normal.space]
 w = ":write"
-W = [
+W = ":write!"
+A = ":reload-all"
+B = [
     "save_selection",
     "select_all",
     # Remove trailing whitespace from end of each line
@@ -53,6 +56,7 @@ W = [
     ]
 q = ":quit"
 l = ":lsp-restart"
+c = ":buffer-close"
 
 [keys.select.space]
 s = ":pipe sort"

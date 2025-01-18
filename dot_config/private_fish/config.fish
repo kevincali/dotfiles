@@ -32,7 +32,7 @@ if type -q helix
     set -gx EDITOR "$(which helix)"
 end
 set -gx VISUAL "$EDITOR"
-set -gx TERMINAL "$(which alacritty)"
+set -gx TERMINAL "$(which ghostty)"
 
 if status is-interactive
     # aliases

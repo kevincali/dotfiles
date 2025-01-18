@@ -3,7 +3,7 @@
 # Thanks to zoxide, the directories are sorted by their usage frequency.
 # Directories that are not tracked by zoxide will be appended to the list.
 
-search_dirs=(~/git ~/work/github ~/work/azure ~/.config ~/.local)
+search_dirs=(~/git ~/.config ~/.local /mnt/* ~/work/github ~/work/azure/*)
 matched_dirs=()
 found_dirs=()
 

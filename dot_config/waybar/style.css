@@ -10,7 +10,7 @@
 /* LIGHT GREEN */
 @define-color cpu #7DADEB;
 /* BABY BLUE */
-@define-color focused #94CFA1;
+@define-color focused #FF5E81;
 /* LIGHT GREEN */
 @define-color hover #D67D8A;
 /* LIGHT CORAL */
@@ -34,7 +34,7 @@
 /* PALE GOLD */
 @define-color secondary #90C7B8;
 /* SEAFOAM GREEN */
-@define-color temperature #DC768B;
+@define-color temperature #A189D4;
 /* LIGHT CORAL */
 @define-color tray #90C7B8;
 /* SEAFOAM GREEN */
@@ -80,9 +80,12 @@ window#waybar {
 #clock,
 #clock-date,
 #cpu,
+#custom-discord,
 #custom-media,
+#custom-vpn,
 #custom-weather,
 #custom-webcam,
+#idle_inhibitor,
 #privacy-item,
 #pulseaudio,
 #temperature,
@@ -124,7 +127,6 @@ window#waybar {
 
 #custom-weather {
   background-color: @weather;
-  margin-left: 0px;
 }
 
 #memory {
@@ -135,11 +137,16 @@ window#waybar {
   background-color: @privacy;
 }
 
+#custom-vpn {
+  background-color: @memory;
+}
+
 #custom-webcam {
   background-color: @privacy;
   margin-left: 12px;
 }
 
+#idle_inhibitor,
 #pulseaudio {
   background-color: @pulseaudio;
 }
@@ -148,6 +155,7 @@ window#waybar {
   background-color: @temperature;
 }
 
+#custom-discord,
 #tray {
   background-color: @tray;
 }
@@ -161,7 +169,8 @@ window#waybar {
 }
 
 #workspaces button.active {
-  color: @workspaces-active;
+  margin: 0 25px;
+  color: @focused;
 }
 
 #workspaces button.urgent {
