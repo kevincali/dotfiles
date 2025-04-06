@@ -82,7 +82,8 @@ window#waybar {
 #cpu,
 #custom-discord,
 #custom-media,
-#custom-vpn,
+#custom-vpn-openvpn,
+#custom-vpn-tailscale,
 #custom-weather,
 #custom-webcam,
 #idle_inhibitor,
@@ -137,7 +138,8 @@ window#waybar {
   background-color: @privacy;
 }
 
-#custom-vpn {
+#custom-vpn-openvpn,
+#custom-vpn-tailscale {
   background-color: @memory;
 }
 

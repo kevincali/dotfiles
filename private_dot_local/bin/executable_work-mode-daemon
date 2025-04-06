@@ -9,7 +9,9 @@ while true; do
         if [ "$slack_status" == "closed" ]; then
             echo "$datetime Slack is opened!"
 
-            nmcli connection up VPN
+            tailscale up --accept-routes --login-server https://vpn.cloud.kyc.now
+            pkill -SIGRTMIN+10 waybar
+            pkill -SIGRTMIN+11 waybar
 
             slack_status="opened"
         fi
@@ -17,7 +19,9 @@ while true; do
         if [ "$slack_status" == "opened" ]; then
             echo "$datetime Slack is closed!"
 
-            nmcli connection down VPN
+            tailscale down
+            pkill -SIGRTMIN+10 waybar
+            pkill -SIGRTMIN+11 waybar
 
             slack_status="closed"
         fi

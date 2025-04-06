@@ -1,7 +1,13 @@
 [manager]
+ratio = [1, 1, 2]
 linemode = "mtime"
 show_hidden = true
 # sort_by = "modified"
 # sort_reverse = true
 sort_by = "natural"
 sort_dir_first = true
+
+[opener]
+edit = [
+	{ run = '$EDITOR "$@"', block = false, for = "unix" },
+]

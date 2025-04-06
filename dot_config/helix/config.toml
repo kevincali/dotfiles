@@ -2,10 +2,16 @@ theme = "catppuccin_mocha"
 
 [editor]
 bufferline = "multiple"
+completion-replace = true
+completion-timeout = 5
+cursorline = true
+jump-label-alphabet = "jfkdls;aurieowpqnvmcxz"
 line-number = "relative"
 true-color = true
-auto-save = true
-completion-replace = true
+
+[editor.auto-save]
+after-delay.enable = true
+focus-lost = true
 
 [editor.cursor-shape]
 insert= "bar"
@@ -14,50 +20,86 @@ select = "underline"
 [editor.file-picker]
 hidden = false
 git-ignore = false
+git-global = false
+git-exclude = false
+
+[editor.indent-guides]
+render = true
 
 [editor.lsp]
 display-messages = true
 
-[keys.select]
-esc = ["collapse_selection", "keep_primary_selection", "normal_mode"]
-X = "extend_line_above"
-"{" = "goto_prev_paragraph"
-"}" = "goto_next_paragraph"
-"C-h" = "jump_view_left"
-"C-j" = "jump_view_down"
-"C-k" = "jump_view_up"
-"C-l" = "jump_view_right"
+[editor.statusline]
+mode.insert = "INSERT"
+mode.select = "SELECT"
+mode.normal = "NORMAL"
 
 [keys.normal]
 esc = ["collapse_selection", "keep_primary_selection"]
-X = "extend_line_above"
-"{" = "goto_prev_paragraph"
+ret = "goto_word"
+# same as keys.select
+C-A-j = ["trim_selections", "extend_line_below", "delete_selection", "paste_after"] # move line down
+C-A-k = ["trim_selections", "extend_line_below", "delete_selection", "move_line_up", "paste_before"] # move line up
+C-h = "jump_view_left"
+C-j = "jump_view_down"
+C-k = "jump_view_up"
+C-l = "jump_view_right"
 "}" = "goto_next_paragraph"
-"C-h" = "jump_view_left"
-"C-j" = "jump_view_down"
-"C-k" = "jump_view_up"
-"C-l" = "jump_view_right"
+"{" = "goto_prev_paragraph"
+H = ":buffer-previous"
+L = ":buffer-next"
+S-tab = "shrink_selection"
+tab = "expand_selection"
+X = "extend_line_above"
+
+[keys.select]
+esc = ["collapse_selection", "keep_primary_selection", "normal_mode"]
+ret = "extend_to_word"
+# same as keys.normal
+C-A-j = ["trim_selections", "extend_line_below", "delete_selection", "paste_after"] # move line down
+C-A-k = ["trim_selections", "extend_line_below", "delete_selection", "move_line_up", "paste_before"] # move line up
+C-h = "jump_view_left"
+C-j = "jump_view_down"
+C-k = "jump_view_up"
+C-l = "jump_view_right"
+"}" = "goto_next_paragraph"
+"{" = "goto_prev_paragraph"
+H = ":buffer-previous"
+L = ":buffer-next"
+S-tab = "shrink_selection"
+tab = "expand_selection"
+X = "extend_line_above"
 
 [keys.normal.space]
-w = ":write"
-W = ":write!"
 A = ":reload-all"
 B = [
     "save_selection",
     "select_all",
-    # Remove trailing whitespace from end of each line
-    ":pipe sed 's/[ \t]*$//'",
-    # Remove trailing blank lines (including whitespace) from end of the buffer
-    ":pipe awk '/^\\s*$/ {b=b $0 \"\\n\"; next;} {printf \"%s\",b; b=\"\"; print;}'",
+    ":pipe sed 's/[ \t]*$//'", # Remove trailing whitespace from end of each line
+    ":pipe awk '/^\\s*$/ {b=b $0 \"\\n\"; next;} {printf \"%s\",b; b=\"\"; print;}'", # Remove trailing blank lines (including whitespace) from end of the buffer
     "collapse_selection",
     "jump_backward",
     "commit_undo_checkpoint",
     ":write",
     ]
-q = ":quit"
-l = ":lsp-restart"
 c = ":buffer-close"
-
-[keys.select.space]
+l = ":lsp-restart"
+q = ":quit"
+w = ":write"
+W = ":write!"
+# same as keys.select.space
+"." = "@ /%p <C-r>%% " # Search current buffer
 s = ":pipe sort"
 S = ":pipe sort --reverse"
+x = ":config-reload"
+Z = "@o<esc>|pwd<ret>;i/<esc>\"%PmiW\"+yddk" # Copy absolute path
+z = "@\"%p\"+yd" # Copy relative path
+
+[keys.select.space]
+# same as keys.normal.space
+"." = "@ /%p <C-r>%% " # Search current buffer
+s = ":pipe sort"
+S = ":pipe sort --reverse"
+x = ":config-reload"
+Z = "@o<esc>|pwd<ret>;i/<esc>\"%PmiW\"+yddk" # Copy absolute path
+z = "@\"%p\"+yd" # Copy relative path

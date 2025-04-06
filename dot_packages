@@ -25,6 +25,7 @@ cachyos-extra-v3/ghostscript
 cachyos-extra-v3/ghostty
 cachyos-extra-v3/git-delta
 cachyos-extra-v3/github-cli
+cachyos-extra-v3/go
 cachyos-extra-v3/gopls
 cachyos-extra-v3/go-yq
 cachyos-extra-v3/gparted
@@ -64,10 +65,8 @@ cachyos/vesktop
 dockerfile-language-server
 extra/rofi-rbw
 extra/vscode-css-languageserver
-firefox
 fish-fzf
 gnome-keyring
-go
 golangci-lint
 golangci-lint-langserver-bin
 gotest
@@ -96,6 +95,7 @@ sqlfluff
 udiskie
 ueberzugpp
 vscode-json-languageserver
+waterfox-bin
 wttrbar
 yaml-language-server
 yq

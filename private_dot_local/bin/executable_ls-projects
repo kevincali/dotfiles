@@ -3,7 +3,13 @@
 # Thanks to zoxide, the directories are sorted by their usage frequency.
 # Directories that are not tracked by zoxide will be appended to the list.
 
-search_dirs=(~/git ~/.config ~/.local /mnt/* ~/work/github ~/work/azure/*)
+search_dirs=(~/git ~/.config ~/.local /mnt/*)
+
+# Append additional directories if Slack is running
+if pgrep -f "slack" > /dev/null; then
+    search_dirs+=(~/work/github ~/work/azure/*)
+fi
+
 matched_dirs=()
 found_dirs=()
 

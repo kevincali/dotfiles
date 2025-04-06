@@ -20,4 +20,9 @@ eval cd "$path" || exit
 name=$(basename "$path")
 
 zoxide add "$path"
-zellij --layout code attach --create "$name"
+
+if ! zellij --layout zide attach --create "$name"; then
+    echo "session '$name' not found, attempting to delete and recreate"
+    zellij delete-session --force "$name"
+    zellij --layout zide attach --create "$name"
+fi

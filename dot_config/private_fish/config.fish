@@ -4,6 +4,9 @@ end
 if test -e $XDG_CONFIG_HOME/fish/work.fish
     source $XDG_CONFIG_HOME/fish/work.fish
 end
+if test -e $XDG_CONFIG_HOME/fish/secrets.fish
+    source $XDG_CONFIG_HOME/fish/secrets.fish
+end
 
 set -gx XDG_CACHE_HOME "$HOME"/.cache
 set -gx XDG_CONFIG_HOME "$HOME"/.config
@@ -23,6 +26,7 @@ set -gx PATH "$PATH:$HOME/.local/bin"
 set -gx PATH "$PATH:$HOME/.cargo/bin"
 set -gx PATH "$PATH:$HOME/.asdf/bin"
 set -gx PATH "$PATH:$HOME/.asdf/shims"
+set -gx PATH "$PATH:$HOME/git/zide/bin"
 set -gx PATH "$PATH:$GOPATH/bin"
 
 if type -q hx
@@ -72,6 +76,10 @@ if status is-interactive
     end
     if type -q zellij
         zellij setup --generate-completion fish | source
+    end
+    if type -q zide
+        set -gx ZIDE_DEFAULT_LAYOUT zide
+        set -gx ZIDE_DIR "$HOME"/git/zide
     end
     if type -q zoxide
         zoxide init fish | source
