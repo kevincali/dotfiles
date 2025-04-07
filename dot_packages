@@ -31,6 +31,7 @@ cachyos-extra-v3/go-yq
 cachyos-extra-v3/gparted
 cachyos-extra-v3/helix
 cachyos-extra-v3/hyperfine
+cachyos-extra-v3/hypridle
 cachyos-extra-v3/keyd
 cachyos-extra-v3/lazygit
 cachyos-extra-v3/libspnav
@@ -44,7 +45,6 @@ cachyos-extra-v3/rbw
 cachyos-extra-v3/rofi-wayland
 cachyos-extra-v3/seahorse
 cachyos-extra-v3/serpl
-cachyos-extra-v3/swayidle
 cachyos-extra-v3/telegram-desktop
 cachyos-extra-v3/thunar
 cachyos-extra-v3/thunar-archive-plugin
