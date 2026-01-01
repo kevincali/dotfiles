@@ -3,6 +3,7 @@ beekeeper-studio-appimage
 blueberry-wayland
 brightnessctl
 cachyos/betterbird-bin
+cachyos-extra-v3/7zip
 cachyos-extra-v3/act
 cachyos-extra-v3/aichat
 cachyos-extra-v3/atuin
@@ -17,6 +18,7 @@ cachyos-extra-v3/delve
 cachyos-extra-v3/difftastic
 cachyos-extra-v3/direnv
 cachyos-extra-v3/docker
+cachyos-extra-v3/docker-buildx
 cachyos-extra-v3/docker-compose
 cachyos-extra-v3/entr
 cachyos-extra-v3/expect
@@ -83,12 +85,13 @@ marksman
 network-manager-applet
 nwg-displays
 obsidian
+orca-slicer-bin
 pinentry-rofi
 pnpm
 prettier
-prusa-slicer
 python-lsp-server
 python-pipx
+responsively
 shellcheck-bin
 spotify
 sqlfluff

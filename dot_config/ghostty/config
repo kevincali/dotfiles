@@ -1,0 +1,11 @@
+background-opacity = 0.95
+confirm-close-surface = false
+font-size = 14
+keybind = page_down=scroll_page_down
+keybind = page_up=scroll_page_up
+keybind = shift+page_down=jump_to_prompt:1
+keybind = shift+page_up=jump_to_prompt:-1
+scrollback-limit = 100000000
+resize-overlay = never
+theme = Catppuccin Mocha
+window-theme = ghostty

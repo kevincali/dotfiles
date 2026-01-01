@@ -29,6 +29,7 @@ set -gx PATH "$PATH:$HOME/.asdf/shims"
 set -gx PATH "$PATH:$HOME/git/zide/bin"
 set -gx PATH "$PATH:$GOPATH/bin"
 
+set -gx HELIX_RUNTIME "$HOME/git/helix-fork/runtime/"
 if type -q hx
     set -gx EDITOR "$(which hx)"
 end
@@ -40,13 +41,16 @@ set -gx TERMINAL "$(which ghostty)"
 
 if status is-interactive
     # aliases
-    alias e="zellij --layout code"
+    alias e="zellij --layout zide"
     if type -q helix
         alias hx="helix"
     end
+    alias ka="killall"
     alias lg="lazygit"
-    alias rm="rm -i --verbose"
     alias lr="eza --all --long --sort=modified --icons" # recently modified
+    alias rm="rm -i --verbose"
+    alias ssys="sudo systemctl"
+    alias sys="systemctl"
 
     # custom bindings
     bind -M insert \ce forward-bigword

@@ -1,0 +1,75 @@
+#!/bin/bash
+# This script creates a PR on Azure DevOps with title selection and optional description.
+#
+# Requirements:
+#  - fzf
+#  - azure-cli
+#  - azure-devops-cli-extension
+
+current_branch=$(git branch --show-current)
+commits=$(git rev-list --count main.."$current_branch")
+
+# Check if we have commits to create PR for
+if [ "$commits" -eq 0 ]; then
+    echo "No commits found between main and $current_branch"
+    echo "Commit your changes before trying to create a PR."
+    exit 1
+fi
+
+# Get PR title
+manual_title_text="-- Manually enter a PR title --"
+options=$(git log main.."$current_branch" --pretty=format:"%s")$'\n'"$manual_title_text"
+title=$(echo "$options" | fzf --prompt="Select a PR title: ")
+
+if [ -z "$title" ]; then
+    echo "No title selected. Cancelled."
+    exit 1
+elif [ "$title" = "$manual_title_text" ]; then
+    read -r -p "Enter PR title: " title
+    if [ -z "$title" ]; then
+        echo "No PR title entered. Cancelled."
+        exit 1
+    fi
+fi
+
+# Get description from template if it exists
+desc=""
+template="$(git rev-parse --show-toplevel)/.azuredevops/pull_request_template.md"
+[ -f "$template" ] && desc=$(cat "$template")
+
+# Ask if user wants to add more description
+read -r -p "Add additional description? (y/N): " add_desc
+
+if [[ "$add_desc" =~ ^[Yy]$ ]]; then
+    echo "Add description (press Ctrl+D when done):"
+    additional_desc=$(cat)
+
+    # Combine descriptions
+    if [ -n "$additional_desc" ]; then
+        if [ -n "$desc" ]; then
+            desc="$desc"$'\n\n'"$additional_desc"
+        else
+            desc="$additional_desc"
+        fi
+    fi
+    echo
+fi
+
+# Confirm creation
+echo "Creating PR with $commits commits: '$title'"
+read -r -p "Continue? (Y/n): " confirm
+
+if [[ "$confirm" =~ ^[Nn]$ ]]; then
+    echo "Cancelled."
+    exit 1
+fi
+
+# Create PR
+AZURE_CONFIG_DIR=$XDG_CONFIG_HOME/azure/kevin/ az repos pr create \
+    --title "$title" \
+    --description "$desc" \
+    --auto-complete \
+    --delete-source-branch \
+    --only-show-errors \
+    --open \
+    --squash

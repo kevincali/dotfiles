@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # This script adds following comments to the commit message
-# - `Co-authored-by: ` entries 
+# - `Co-authored-by: ` entries
 # - conventional commits docs (see https://gist.github.com/brianclements/841ea7bffdb01346392c#type)
 
 # Called by "git commit" with the name of the file that has the
@@ -19,13 +19,13 @@ COMMIT_SOURCE=$2
 # merge, squash or commit. See https://git-scm.com/docs/githooks
 
 if [ -z "$COMMIT_SOURCE" ]
-then 
-  echo -e '\n### Co-authors' >> "$COMMIT_MSG_FILE"
-  while read -r line; 
-  do
-    printf '# Co-authored-by: ' >> "$COMMIT_MSG_FILE"
-    echo "$line" >> "$COMMIT_MSG_FILE"
-  done < "$HOME"/.git_coauthors 
+then
+  # echo -e '\n### Co-authors' >> "$COMMIT_MSG_FILE"
+  # while read -r line;
+  # do
+  #   printf '# Co-authored-by: ' >> "$COMMIT_MSG_FILE"
+  #   echo "$line" >> "$COMMIT_MSG_FILE"
+  # done < "$HOME"/.git_coauthors
 
   echo -e '\n### Conventional commits: https://gist.github.com/brianclements/841ea7bffdb01346392c#type' >> "$COMMIT_MSG_FILE"
   echo '# build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)' >> "$COMMIT_MSG_FILE"

@@ -86,6 +86,7 @@ window#waybar {
 #custom-vpn-tailscale,
 #custom-weather,
 #custom-webcam,
+#custom-zellij,
 #idle_inhibitor,
 #privacy-item,
 #pulseaudio,
@@ -122,6 +123,7 @@ window#waybar {
   background-color: @cpu;
 }
 
+#custom-zellij,
 #custom-media {
   background-color: @media;
 }

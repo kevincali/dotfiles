@@ -1,6 +1,14 @@
 keybinds {
     tmux clear-defaults=true {}
 
+    unbind "Ctrl g"
+    normal {
+        bind "Ctrl m" { SwitchToMode "locked"; }
+    }
+    locked {
+        bind "Ctrl m" { SwitchToMode "normal"; }
+    }
+
     shared {
         bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
@@ -37,5 +45,5 @@ pane_frames false
 theme "catppuccin-mocha"
 default_mode "locked"
 copy_command "wl-copy"
-serialize_pane_viewport true
-scrollback_lines_to_serialize 0
+// serialize_pane_viewport true
+// scrollback_lines_to_serialize 0
