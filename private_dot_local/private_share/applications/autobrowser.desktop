@@ -3,6 +3,6 @@ Categories=Network;WebBrowser
 Exec=/home/cake/git/autobrowser/out/autobrowser -config /home/cake/.config/autobrowser.config -url %u
 Icon=browser
 MimeType=x-scheme-handler/http;x-scheme-handler/https
-Name=Autobrowser: select browser by contextual rules
+Name=Autobrowser
 Terminal=false
 Type=Application

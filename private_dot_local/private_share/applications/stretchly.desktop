@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Stretchly
-Exec=/opt/Stretchly/stretchly --ozone-platform=wayland %U
-Terminal=false
-Type=Application
-Icon=stretchly
-StartupWMClass=Stretchly
-Comment=The break time reminder app
-Categories=Utility;

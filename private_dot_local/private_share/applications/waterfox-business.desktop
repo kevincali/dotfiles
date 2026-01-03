@@ -1,7 +1,8 @@
 [Desktop Entry]
 Version=1.0
 Name=Waterfox [Business]
-Exec=waterfox -P Business --class browser-business %u
+Exec=waterfox -P business --class browser-business %u
+StartupWMClass=browser-business
 GenericName=Web Browser
 Comment=Browse the Web
 Icon=waterfox
@@ -11,17 +12,3 @@ MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xm
 StartupNotify=true
 Categories=Network;WebBrowser;
 Keywords=web;browser;internet;
-Actions=new-window;new-private-window;profile-manager-window;
-StartupWMClass=browser-business
-
-[Desktop Action new-window]
-Name=Open a New Window
-Exec=waterfox --new-window %u
-
-[Desktop Action new-private-window]
-Name=Open a New Private Window
-Exec=waterfox --private-window %u
-
-[Desktop Action profile-manager-window]
-Name=Open the Profile Manager
-Exec=waterfox --ProfileManager

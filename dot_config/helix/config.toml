@@ -1,56 +1,55 @@
 theme = "catppuccin_mocha"
 
-[icons.vcs]
-enabled = true
-icon = ""
-[icons.diagnostic]
-error = ""
-warning = ""
-info = ""
-hint = ""
-[icons.mime]
-enabled = true
-directory = "🖿"
-rust = "🦀"
-python = "🐍"
-go = ""
-json = ""
+# [icons.vcs]
+# enabled = true
+# icon = ""
+# [icons.diagnostic]
+# error = ""
+# warning = ""
+# info = ""
+# hint = ""
+# [icons.mime]
+# enabled = true
+# directory = "🖿"
+# rust = "🦀"
+# python = "🐍"
+# go = ""
+# json = ""
 
-[editor.inline-blame]
-show = "cursor-line"
-[editor.gradient-borders]
-enable = true
-thickness = 1
-direction = "horizontal"
-start-color = "#FF0080"        # Hot Pink
-end-color = "#00FFFF"          # Cyan
-animation-speed = 3
-[editor.notifications]
-padding = 0
-[editor.notifications.shadow]
-enable = false
+# [editor.inline-blame]
+# show = "cursor-line"
+# [editor.gradient-borders]
+# enable = true
+# thickness = 1
+# direction = "horizontal"
+# start-color = "#FF0080"        # Hot Pink
+# end-color = "#00FFFF"          # Cyan
+# animation-speed = 3
+# [editor.notifications]
+# padding = 0
+# [editor.notifications.shadow]
+# enable = false
 
-[editor.cmdline]
-style = "popup"
-show-icons = true
-[editor.cmdline.icons]
-search = "/"
-command = ":"
-shell = "$"
-general = ">"
+# [editor.cmdline]
+# style = "popup"
+# show-icons = true
+# [editor.cmdline.icons]
+# search = "/"
+# command = ":"
+# shell = "$"
+# general = ">"
 
-[editor.bufferline]
-render-mode = "multiple"
-separator = "┊"
+# [editor.bufferline]
+# render-mode = "multiple"
+# separator = "┊"
 
 [editor]
-welcome-screen = false
-picker-symbol=" ↪ "
-rainbow-brackets = true
-rounded-corners = true
+bufferline = "multiple"
+# welcome-screen = false
+# picker-symbol=" ↪ "
+# rainbow-brackets = true
+# rounded-corners = true
 gutters = ["diff", "spacer", "diagnostics", "line-numbers", "spacer"]
- 
-# bufferline = "multiple"
 end-of-line-diagnostics = "hint"
 undercurl = true
 completion-replace = true
@@ -89,13 +88,13 @@ mode.normal = "NORMAL"
 [keys.normal]
 G = [":new", ":insert-output lazygit", ":buffer-close!", ":redraw"]
 F = [
-  ':sh rm -f /tmp/unique-file',
-  ':insert-output yazi %{buffer_name} --chooser-file=/tmp/unique-file',
-  ':insert-output echo "\x1b[?1049h\x1b[?2004h" > /dev/tty',
-  ':open %sh{cat /tmp/unique-file}',
-  ':redraw',
-  ':set mouse false',
-  ':set mouse true',
+  ":sh rm -f /tmp/unique-file-h21a434",
+  ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-file-h21a434",
+  ":insert-output echo \"x1b[?1049h\" > /dev/tty",
+  ":open %sh{cat /tmp/unique-file-h21a434}",
+  ":redraw",
+  ":set mouse false",
+  ":set mouse true",
 ]
 
 esc = ["collapse_selection", "keep_primary_selection"]

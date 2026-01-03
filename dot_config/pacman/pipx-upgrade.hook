@@ -1,9 +1,0 @@
-[Trigger]
-Operation = Upgrade
-Target = *
-Type = Package
-
-[Action]
-Description = Upgrading all pipx packages...
-Exec = /usr/bin/sudo -u cake /usr/bin/pipx upgrade-all
-When = PostTransaction

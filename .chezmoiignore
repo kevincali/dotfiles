@@ -1,2 +1,7 @@
 README.md
 LICENSE
+
+{{- if ne .chezmoi.hostname "work" }}
+work
+.local/share/applications/waterfox-work.desktop
+{{- end }}

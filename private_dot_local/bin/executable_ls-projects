@@ -3,7 +3,9 @@
 # Thanks to zoxide, the directories are sorted by their usage frequency.
 # Directories that are not tracked by zoxide will be appended to the list.
 
-search_dirs=(~/git ~/.config ~/.local /mnt/*)
+shopt -s nullglob
+
+search_dirs=(~/git ~/.config /mnt/*)
 
 # Append additional directories if Slack is running
 if pgrep -f "slack" > /dev/null; then
@@ -11,7 +13,7 @@ if pgrep -f "slack" > /dev/null; then
 fi
 
 matched_dirs=()
-found_dirs=()
+found_dirs=(~/.local/share/applications ~/.local/share/omarchy ~/.local/bin)
 
 mapfile -t all_found_dirs < <(find "${search_dirs[@]}" -mindepth 1 -maxdepth 1 -type d)
 

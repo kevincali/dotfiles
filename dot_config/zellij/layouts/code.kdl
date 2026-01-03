@@ -1,40 +1,36 @@
 layout {
-	default_tab_template {
+    default_tab_template {
         pane size=1 borderless=true {
-		    plugin location="zellij:compact-bar"
+            plugin location="zellij:compact-bar"
         }
         children
         pane size=1 borderless=true {
-		    plugin location="zellij:status-bar"
+            plugin location="zellij:status-bar"
         }
     }
-
-	tab name="editor" focus=true {
-		pane command="hx"
+    tab name="editor" {
+        pane stacked=true {
+            pane command="$EDITOR" name="editor" expanded=true
+            pane command="yazi" name="files"
+            pane command="lazygit" name="git"
+        }
     }
-	tab name="shell 1" focus=false {
-		pane command="fish"
+    tab name="shell 1" {
+        pane command="$SHELL"
     }
-	tab name="shell 2" focus=false {
-	    pane split_direction="horizontal" {
-			pane command="fish" size="80%"
-			pane command="fish" size="20%"
-	    }
+    tab name="shell 2" {
+        pane command="$SHELL"
     }
-	tab name="files" focus=false {
-		pane command="yazi"
-	}
-	tab name="git" focus=false {
-		pane command="lazygit"
-	}
-
+    tab name="shell 3" {
+        pane command="$SHELL"
+    }
     swap_floating_layout {
-	    floating_panes max_panes=1 {
-	        pane x="5%"  y="5%" width="90%" height="90%"
-	    }
-	    floating_panes max_panes=2 {
-	        pane x="4%"  y="5%" width="45%" height="90%"
-	        pane x="51%" y="5%" width="45%" height="90%"
-	    }
+        floating_panes max_panes=1 {
+            pane x="5%" y="5%" width="90%" height="90%"
+        }
+        floating_panes max_panes=2 {
+            pane x="4%" y="5%" width="45%" height="90%"
+            pane x="51%" y="5%" width="45%" height="90%"
+        }
     }
 }

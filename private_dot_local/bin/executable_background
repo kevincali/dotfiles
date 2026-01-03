@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# This script sets a random background.
-
-random_bg=$(find /usr/share/wallpapers/cachyos-wallpapers/ -type f | shuf --head-count 1)
-swaybg --mode fill --output \* --image "$random_bg" &

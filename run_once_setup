@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+# This script is used to setup configs that can't be managed by chezmoi itself.
+# It's a workaround because chezmoi does not support root files.
+
+echo "configuring keyd"
+sudo mkdir -p /etc/keyd
+sudo tee /etc/keyd/default.conf > /dev/null << 'EOF'
+[ids]
+*
+[main]
+# CapsLock tap  -> Esc
+# CapsLock hold -> Meta
+capslock = overload(meta, esc)
+EOF
+echo
+
+echo "configuring sudoers"
+sudo mkdir -p /etc/keyd
+sudo tee /etc/sudoers.d/timeout > /dev/null << 'EOF'
+Defaults passwd_timeout=0
+Defaults timestamp_timeout=60
+EOF
+if ! sudo visudo -c -f /etc/sudoers.d/timeout; then
+    echo "invalid sudoers syntax, removing file"
+    sudo rm /etc/sudoers.d/timeout
+    exit 1
+fi
+echo

@@ -45,5 +45,7 @@ pane_frames false
 theme "catppuccin-mocha"
 default_mode "locked"
 copy_command "wl-copy"
-// serialize_pane_viewport true
-// scrollback_lines_to_serialize 0
+
+session_serialization true
+scrollback_lines_to_serialize 0
+

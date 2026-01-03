@@ -2,4 +2,4 @@ sourceDir = "/home/cake/git/dotfiles"
 
 encryption = "gpg"
 [gpg]
-  recipient = "20154415+kevincali@users.noreply.github.com"
+  recipient = "A69480D38F1DAB3AD43306F8E1A4CD4C4C75C551"
