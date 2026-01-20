@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=Network;WebBrowser
-Exec=/home/cake/git/autobrowser/out/autobrowser -config /home/cake/.config/autobrowser.config -url %u
+Exec=/home/cake/.local/bin/autobrowser -url %u
 Icon=browser
 MimeType=x-scheme-handler/http;x-scheme-handler/https
 Name=Autobrowser

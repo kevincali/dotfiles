@@ -16,40 +16,41 @@ theme = "catppuccin_mocha"
 # go = ""
 # json = ""
 
-# [editor.inline-blame]
-# show = "cursor-line"
-# [editor.gradient-borders]
-# enable = true
-# thickness = 1
-# direction = "horizontal"
-# start-color = "#FF0080"        # Hot Pink
-# end-color = "#00FFFF"          # Cyan
-# animation-speed = 3
-# [editor.notifications]
-# padding = 0
-# [editor.notifications.shadow]
-# enable = false
+[editor.inline-blame]
+show = "cursor-line"
+[editor.gradient-borders]
+enable = true
+thickness = 1
+direction = "horizontal"
+start-color = "#FF0080"        # Hot Pink
+end-color = "#00FFFF"          # Cyan
+animation-speed = 3
+[editor.notifications]
+padding = 0
+[editor.notifications.shadow]
+enable = false
 
-# [editor.cmdline]
-# style = "popup"
-# show-icons = true
-# [editor.cmdline.icons]
-# search = "/"
-# command = ":"
-# shell = "$"
-# general = ">"
+[editor.cmdline]
+style = "popup"
+show-icons = true
+[editor.cmdline.icons]
+search = "/"
+command = ":"
+shell = "$"
+general = ">"
 
-# [editor.bufferline]
-# render-mode = "multiple"
-# separator = "┊"
+[editor.bufferline]
+render-mode = "multiple"
+separator = "┊"
 
 [editor]
-bufferline = "multiple"
-# welcome-screen = false
-# picker-symbol=" ↪ "
-# rainbow-brackets = true
-# rounded-corners = true
+welcome-screen = false
+picker-symbol=" ↪ "
+rainbow-brackets = true
+rounded-corners = true
 gutters = ["diff", "spacer", "diagnostics", "line-numbers", "spacer"]
+
+# bufferline = "multiple"
 end-of-line-diagnostics = "hint"
 undercurl = true
 completion-replace = true

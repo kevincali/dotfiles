@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# This script launches Walker unless certain windows are focused.
+
+EXCLUDED_WINDOW_CLASSES=(
+    "steam_app_.*"  # Steam games
+)
+
+# Check if focused window matches
+excluded_focused=false
+for class in "${EXCLUDED_WINDOW_CLASSES[@]}"; do
+    if hyprctl activewindow 2>/dev/null | grep -q "class: $class"; then
+        excluded_focused=true
+        break
+    fi
+done
+
+# Exit if excluded window is focused
+if [ "$excluded_focused" = true ]; then
+    exit 0
+fi
+
+exec omarchy-launch-walker "$@"

@@ -4,5 +4,8 @@ source ~/.config/uwsm/default
 omarchy-cmd-present mise && eval "$(mise activate bash)"
 
 # custom
-export PATH="$PATH:/home/cake/.local/bin"
-export PATH="$PATH:/home/cake/.lmstudio/bin"
+export PATH=$PATH:/home/cake/.local/bin
+export PATH=$PATH:/home/cake/.cargo/bin
+export PATH=$PATH:/home/cake/.lmstudio/bin
+export GOPATH=$XDG_DATA_HOME/go
+export GOPRIVATE=github.com/kevincali/*

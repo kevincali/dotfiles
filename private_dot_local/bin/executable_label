@@ -1,0 +1,72 @@
+#!/usr/bin/env sh
+# This script prints different type of labels using a label printer.
+
+for dependency in magick identify mogrify brother_ql; do
+    if ! command -v "$dependency" >/dev/null 2>&1; then
+        echo "Error: Command '$dependency' not found" >&2
+        exit 1
+    fi
+done
+
+usage() {
+    echo "Usage: $(basename "$0") <type> <file/text>"
+    echo ""
+    echo "Types:"
+    echo "  dhl         after conversion on https://paketikett.de"
+    echo "  post        downloaded directly from Deutsche Post"
+    echo "  filament    smaller label from https://3dfilamentprofiles.com"
+    echo "  text        print arbitrary text"
+    exit 1
+}
+
+if [ $# -lt 2 ]; then
+    usage
+fi
+
+PRINT="brother_ql --model QL-820NWB --printer tcp://10.1.1.61 print --600dpi --label 62"
+
+type="$1"
+file="$2"
+
+case "$type" in
+    "dhl")
+        tmp_png="${file%.pdf}.png"
+        magick -density 600 "$file" "$tmp_png"
+        $PRINT --rotate 90 "$tmp_png"
+        rm "$tmp_png"
+        ;;
+    "post")
+        tmp_png="${file%.pdf}.png"
+        magick -density 600 "$file" "$tmp_png"
+        mogrify -trim -border 200 -bordercolor white "$tmp_png"
+        mogrify -trim -border 200 -bordercolor white "$tmp_png" # needed twice for proper edge handling
+        $PRINT "$tmp_png"
+        rm "$tmp_png"
+        ;;
+    "filament")
+        tmp_png="${file%.png}-tmp.png"
+        mogrify -trim -gravity east -splice 450x0 -background black "$tmp_png"
+        $PRINT "$tmp_png"
+        rm "$tmp_png"
+        ;;
+    "text")
+        shift
+        text="$*"
+        tmp_png=$(mktemp /tmp/label_text_XXXXXX.png)
+
+        magick -font Noto-Sans-Bold -pointsize 118 label:"$text" -trim "$tmp_png"
+        width=$(identify -format "%w" "$tmp_png")
+        if [ "$width" -gt 1400 ]; then
+            echo "Error: Text too wide ($width px, max 1400 px)" >&2
+            rm "$tmp_png"
+            exit 1
+        fi
+
+        magick "$tmp_png" -gravity center -extent 1400x170 "$tmp_png"
+        $PRINT "$tmp_png"
+        rm "$tmp_png"
+        ;;
+    *)
+        usage
+        ;;
+esac

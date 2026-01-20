@@ -37,5 +37,9 @@
 [commit]
 	gpgsign = true
 [core]
+	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/private -F none"
 	hooksPath = /home/cake/.config/git/hooks/
 	excludesfile = /home/cake/.config/git/ignore
+
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/

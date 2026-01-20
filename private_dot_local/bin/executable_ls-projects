@@ -5,39 +5,35 @@
 
 shopt -s nullglob
 
-search_dirs=(~/git ~/.config /mnt/*)
+found_dirs=(
+    ~/.local/share/applications
+    ~/.local/share/omarchy
+    ~/.local/bin
+    ~/.ssh
+    /run/media/*/*
+)
 
-# Append additional directories if Slack is running
-if pgrep -f "slack" > /dev/null; then
-    search_dirs+=(~/work/github ~/work/azure/*)
-fi
-
-matched_dirs=()
-found_dirs=(~/.local/share/applications ~/.local/share/omarchy ~/.local/bin)
-
-mapfile -t all_found_dirs < <(find "${search_dirs[@]}" -mindepth 1 -maxdepth 1 -type d)
-
-# Convert to a set for more efficient membership check
-declare -A found_dirs_set
-for dir in "${all_found_dirs[@]}"; do
-    found_dirs_set["$dir"]=1
+for dir in ~/git ~/.config; do
+    timeout 0.01s test -d "$dir" || continue
+    while IFS= read -r d; do
+        found_dirs+=("$d")
+    done < <(timeout 0.01s find "$dir" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
 done
 
-# Check zoxide directories against the found_dirs_set
-while read -r dir; do
-    if [[ -n "${found_dirs_set["$dir"]}" ]]; then
-        matched_dirs+=("$dir")
-    fi
-done < <(zoxide query --list)
-
-# Append directories from find that are not in matched_dirs
-for dir in "${all_found_dirs[@]}"; do
-    # shellcheck disable=SC2076
-    if [[ ! " ${matched_dirs[*]} " =~ " $dir " ]]; then
-        found_dirs+=("$dir")
-    fi
+declare -A dirs
+for d in "${found_dirs[@]}"; do
+    dirs["$d"]=1
 done
 
-# Replace $HOME with ~
-printf '%s\n' "${matched_dirs[@]}" | sed "s|$HOME|~|g"
-printf '%s\n' "${found_dirs[@]}" | sed "s|$HOME|~|g"
+matched=()
+while IFS= read -r d; do
+    [[ ${dirs["$d"]} ]] && matched+=("$d")
+done < <(timeout 0.01s zoxide query --list 2>/dev/null)
+
+unmatched=()
+for d in "${found_dirs[@]}"; do
+    [[ " ${matched[*]} " =~ " $d " ]] || unmatched+=("$d")
+done
+
+printf '%s\n' "${matched[@]}" | sed "s|$HOME|~|g"
+printf '%s\n' "${unmatched[@]}" | sed "s|$HOME|~|g"
