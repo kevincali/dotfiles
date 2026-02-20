@@ -30,29 +30,38 @@ file="$2"
 
 case "$type" in
     "dhl")
-        tmp_png="${file%.pdf}.png"
+        tmp_png=$(mktemp --suffix=.png)
+        cp "$file" "$tmp_png"
+
         magick -density 600 "$file" "$tmp_png"
         $PRINT --rotate 90 "$tmp_png"
+
         rm "$tmp_png"
         ;;
     "post")
-        tmp_png="${file%.pdf}.png"
+        tmp_png=$(mktemp --suffix=.png)
+        cp "$file" "$tmp_png"
+
         magick -density 600 "$file" "$tmp_png"
         mogrify -trim -border 200 -bordercolor white "$tmp_png"
         mogrify -trim -border 200 -bordercolor white "$tmp_png" # needed twice for proper edge handling
         $PRINT "$tmp_png"
+
         rm "$tmp_png"
         ;;
     "filament")
-        tmp_png="${file%.png}-tmp.png"
+        tmp_png=$(mktemp --suffix=.png)
+        cp "$file" "$tmp_png"
+
         mogrify -trim -gravity east -splice 450x0 -background black "$tmp_png"
         $PRINT "$tmp_png"
+
         rm "$tmp_png"
         ;;
     "text")
         shift
         text="$*"
-        tmp_png=$(mktemp /tmp/label_text_XXXXXX.png)
+        tmp_png=$(mktemp --suffix=.png)
 
         magick -font Noto-Sans-Bold -pointsize 118 label:"$text" -trim "$tmp_png"
         width=$(identify -format "%w" "$tmp_png")
@@ -61,9 +70,9 @@ case "$type" in
             rm "$tmp_png"
             exit 1
         fi
-
         magick "$tmp_png" -gravity center -extent 1400x170 "$tmp_png"
         $PRINT "$tmp_png"
+
         rm "$tmp_png"
         ;;
     *)
