@@ -1,0 +1,68 @@
+// https://github.com/niri-wm/niri/wiki/Configuration:-Window-Rules
+// https://github.com/niri-wm/niri/wiki/Configuration:-Layer-Rules
+
+window-rule {
+    geometry-corner-radius 20
+    clip-to-geometry true
+}
+
+layer-rule {
+    match namespace="^noctalia-wallpaper*"
+    place-within-backdrop true
+}
+
+// main workspace
+workspace "main"
+window-rule {
+    match app-id="org.telegram.desktop"
+    exclude app-id="org.telegram.desktop" title="Media viewer"
+    match app-id="equibop"
+    match app-id="steam" title="Friends List"
+    match app-id="teamspeak-client"
+    match app-id="FFPWA-01KJ39538QVHMVZD7D1KDWBNFP" title="Open WebUI"
+    open-on-workspace "main"
+}
+
+// screencast highlighting
+window-rule {
+    match is-window-cast-target=true
+    focus-ring {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+    border {
+        inactive-color "#7d0d2d"
+    }
+    shadow {
+        color "#7d0d2d70"
+    }
+    tab-indicator {
+        active-color "#f38ba8"
+        inactive-color "#7d0d2d"
+    }
+}
+
+// block out from screencast
+window-rule {
+    match app-id="Bitwarden"
+    block-out-from "screencast"
+}
+
+// floating
+window-rule {
+    // browser extensions are handled in the niri-floating-workaround script
+    match app-id="steam" title="Steam Settings"
+    open-floating true
+}
+
+// size
+window-rule {
+    match app-id="org.telegram.desktop"
+    default-window-height { fixed 856; }
+    default-column-width { fixed 720; }
+}
+window-rule {
+    match app-id="steam" title="Friends List"
+    default-window-height { fixed 500; }
+    default-column-width { fixed 720; }
+}

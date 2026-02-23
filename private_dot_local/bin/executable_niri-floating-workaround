@@ -1,0 +1,16 @@
+#!/bin/bash
+# This script sets browser extension windows as floating in niri.
+# It's a workaround copied from here: https://github.com/niri-wm/niri/discussions/1374#discussioncomment-12681992
+
+ids=[]
+
+niri msg -j event-stream | jq --unbuffered -r ". | select ( . | has(\"WindowOpenedOrChanged\")) | .[\"WindowOpenedOrChanged\"].window | select((.title? | match(\"Extension: .* (Mozilla Firefox|Zen Browser|LibreWolf)\")) and .is_floating == false) | .id" | while read id; do
+    if [[ "${ids[*]}" == *"$id"* ]]; then
+        continue
+    fi
+
+    ids+="$id"
+    niri msg action toggle-window-floating --id="$id"
+    niri msg action set-window-height 50%
+    niri msg action set-window-width 20%
+done

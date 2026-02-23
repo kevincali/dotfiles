@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Firefox [Personal]
+Exec=firefox -P personal --class browser-personal %u
+StartupWMClass=browser-personal
+GenericName=Web Browser
+Comment=Browse the Web
+Icon=firefox
+Terminal=false
+Type=Application
+MimeType=application/json;application/pdf;application/rdf+xml;application/rss+xml;application/x-xpinstall;application/xhtml+xml;application/xml;audio/flac;audio/ogg;audio/webm;image/avif;image/gif;image/jpeg;image/png;image/svg+xml;image/webp;text/html;text/xml;video/ogg;video/webm;x-scheme-handler/chrome;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/mailto;
+StartupNotify=true
+Categories=Network;WebBrowser;
+Keywords=web;browser;internet;

@@ -1,0 +1,6 @@
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
+
+output "HDMI-A-1" {
+    mode "3840x2160@143.988"
+    scale 1.5
+}

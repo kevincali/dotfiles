@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.4
+Name=Open WebUI
+Comment=Open WebUI is an open, extensible, user-friendly interface for AI that adapts to your workflow.
+Keywords=chat;llm;ai;openwebui;
+Categories=GTK;
+Icon=FFPWA-01KJ39538QVHMVZD7D1KDWBNFP
+Exec=/usr/bin/firefoxpwa site launch 01KJ39538QVHMVZD7D1KDWBNFP --protocol %u
+Actions=
+MimeType=
+Terminal=false
+StartupNotify=true
+StartupWMClass=FFPWA-01KJ39538QVHMVZD7D1KDWBNFP

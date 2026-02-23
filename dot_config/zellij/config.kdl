@@ -42,7 +42,7 @@ keybinds {
 }
 
 pane_frames false
-theme "catppuccin-mocha"
+theme "catppuccin-macchiato"
 default_mode "locked"
 copy_command "wl-copy"
 

@@ -21,8 +21,8 @@ layout {
     tab name="shell 2" {
         pane command="$SHELL"
     }
-    tab name="shell 3" {
-        pane command="$SHELL"
+    tab name="agent" {
+        pane command="opencode"
     }
     swap_floating_layout {
         floating_panes max_panes=1 {

@@ -1,0 +1,6 @@
+// https://github.com/niri-wm/niri/wiki/Configuration:-Layout
+
+layout {
+    always-center-single-column
+    background-color "transparent" // needed for noctalia-shell to set wallpaper
+}

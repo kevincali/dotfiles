@@ -1,0 +1,4 @@
+[".config/helix/themes/catppuccin_mocha.toml"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/catppuccin/helix/refs/heads/main/themes/default/catppuccin_mocha.toml"
+    refreshPeriod = "168h"

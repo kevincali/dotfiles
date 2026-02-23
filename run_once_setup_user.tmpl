@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+# This script sets up user-level tools and configurations.
+
+echo === GPG Key ===
+GPG_KEY_ID="E1A4CD4C4C75C551"
+if ! gpg --list-secret-keys "$GPG_KEY_ID" > /dev/null 2>&1; then
+    gpg --batch --import << 'EOF'
+{{ (rbw "GPG").notes }}
+EOF
+    echo "setting trust to ultimate"
+    printf "5\ny\n" | gpg --command-fd 0 --no-tty --edit-key "$GPG_KEY_ID" trust quit
+else
+    echo "GPG key already exists, skipping"
+fi
+
+echo === Helix ===
+if ! which hx > /dev/null 2>&1; then
+    echo "cloning helix..."
+    cd /tmp
+    git clone --depth 1 https://github.com/gj1118/helix.git helix
+
+    echo "installing helix..."
+    cd helix
+    cargo install --path helix-term --locked
+
+    echo "copying runtime files..."
+    mkdir -p "$XDG_CONFIG_HOME/helix"
+    cp -R runtime "$XDG_CONFIG_HOME/helix/"
+
+    echo "fetching and building grammars..."
+    hx -g fetch
+    hx -g build
+else
+    echo "helix already installed, skipping"
+fi
+
+echo === Autobrowser ===
+if ! which autobrowser > /dev/null 2>&1; then
+    echo "installing autobrowser..."
+    curl -s https://api.github.com/repos/pltanton/autobrowser/releases/latest | \
+        jq -r '.assets[] | select(.name | contains("x86_64.pkg.tar.zst")) | .browser_download_url' | \
+        xargs -I {} sh -c 'curl -LO {} && sudo pacman -U --noconfirm *.pkg.tar.zst && rm *.pkg.tar.zst'
+else
+    echo "autobrowser already installed, skipping"
+fi
+
+echo === Betterfox ===
+FIREFOX_DIR="$XDG_CONFIG_HOME/mozilla/firefox"
+USERJS="$FIREFOX_DIR/betterfox.js"
+if [ -f "$USERJS" ]; then
+    echo "symlinking Betterfox to all firefox profiles"
+    profiles=$(grep "^Path=" "$FIREFOX_DIR/profiles.ini" | cut -d'=' -f2)
+    if [ -n "$profiles" ]; then
+        for profile in $profiles; do
+            ln -sfv "$USERJS" "$FIREFOX_DIR/$profile/user.js"
+        done
+    else
+        echo "no profiles found"
+    fi
+else
+    echo "config not found at $USERJS, skipping"
+fi
+echo

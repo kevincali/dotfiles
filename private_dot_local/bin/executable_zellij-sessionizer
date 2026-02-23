@@ -1,28 +1,12 @@
 #!/usr/bin/env bash
-# This script attaches a zellij session for a given path while incrementing its zoxide rank.
-# If the session does not exist, it will be created.
+# Spawns a zellij session in a new terminal from a path read via stdin.
+# Intended for use with: ls-projects | dmenu | zellij-sessionizer
 
-if [[ $# -eq 1 ]]; then
-    path=$1
-else
-    path=$(ls-projects | fzf --reverse)
-fi
+IFS= read -r path
+[[ -z $path ]] && exit 0
 
-if [[ -z $path ]]; then
-    exit 0
-fi
-
-if [[ $path == "." ]]; then
-  path="$(pwd)"
-fi
-
-eval cd "$path" || exit
+path="${path/#\~/$HOME}"
 name=$(basename "$path")
 
-zoxide add .
-
-if ! zellij --layout code attach --create "$name"; then
-    echo "session '$name' not found, attempting to delete and recreate"
-    zellij delete-session --force "$name"
-    zellij --layout code attach --create "$name"
-fi
+zoxide add "$path" &
+cd "$path" && ${TERMINAL:-alacritty} --working-directory "$path" -e zellij --layout code attach --create "$name"

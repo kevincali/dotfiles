@@ -37,7 +37,7 @@
 [commit]
 	gpgsign = true
 [core]
-	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/private -F none"
+	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/personal -F none"
 	hooksPath = /home/cake/.config/git/hooks/
 	excludesfile = /home/cake/.config/git/ignore
 

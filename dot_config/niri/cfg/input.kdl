@@ -1,0 +1,12 @@
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Input
+
+input {
+    keyboard {
+        xkb {
+            layout "eu"
+        }
+    }
+
+    focus-follows-mouse max-scroll-amount="50%"
+    workspace-auto-back-and-forth
+}
