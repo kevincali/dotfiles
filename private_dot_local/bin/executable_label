@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # This script prints different type of labels using a label printer.
 
-for dependency in magick identify mogrify brother_ql; do
+for dependency in magick identify mogrify brother_ql ghostscript; do
     if ! command -v "$dependency" >/dev/null 2>&1; then
         echo "Error: Command '$dependency' not found" >&2
         exit 1
@@ -14,6 +14,7 @@ usage() {
     echo "Types:"
     echo "  dhl         after conversion on https://paketikett.de"
     echo "  post        downloaded directly from Deutsche Post"
+    echo "  kleinpaket  DIN A6 DHL Kleinpaket"
     echo "  filament    smaller label from https://3dfilamentprofiles.com"
     echo "  text        print arbitrary text"
     exit 1
@@ -48,6 +49,39 @@ case "$type" in
         $PRINT "$tmp_png"
 
         rm "$tmp_png"
+        ;;
+    "kleinpaket")
+        tmp_png=$(mktemp --suffix=.png)
+        tmp_addresses=$(mktemp --suffix=.png)
+        tmp_barcodes=$(mktemp --suffix=.png)
+        tmp_logo=$(mktemp --suffix=.png)
+        tmp_weight=$(mktemp --suffix=.png)
+
+        magick -density 600 "$file" "$tmp_png"
+
+        # crop addresses
+        magick "$tmp_png" -crop 2367x1520+0+80 +repage "$tmp_addresses"
+
+        # extract and move logo
+        magick "$tmp_addresses" -crop 500x80+1770+35 "$tmp_logo"
+        magick "$tmp_addresses" "$tmp_logo" -geometry +1200+200 -composite "$tmp_addresses"
+
+        # extract and move weight
+        magick "$tmp_addresses" -crop 400x190+1975+1295 "$tmp_weight"
+        magick "$tmp_addresses" "$tmp_weight" -geometry +1350+1295 -composite "$tmp_addresses"
+
+        # crop addresses again
+        magick "$tmp_addresses" -crop 1700x1520+10+0 +repage "$tmp_addresses"
+
+        # crop barcodes
+        magick "$tmp_png" -crop 1990x950+190+2420 +repage "$tmp_barcodes"
+
+        # place addresses and barcodes side by side
+        magick "$tmp_addresses" "$tmp_barcodes" -gravity center +append "$tmp_png"
+
+        $PRINT --rotate 90 "$tmp_png"
+
+        rm "$tmp_png" "$tmp_addresses" "$tmp_barcodes" "$tmp_logo" "$tmp_weight"
         ;;
     "filament")
         tmp_png=$(mktemp --suffix=.png)

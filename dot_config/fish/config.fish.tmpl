@@ -2,7 +2,6 @@
 if test -e /usr/share/cachyos-fish-config/cachyos-config.fish
     source /usr/share/cachyos-fish-config/cachyos-config.fish
 end
-
 {{ (rbw "~/.config/fish/config.fish").notes }}
 
 # remove greeting
@@ -20,7 +19,7 @@ set -gx GOPATH "$XDG_DATA_HOME"/go
 
 set -gx PATH "$PATH:$HOME/.cargo/bin"
 
-set -gx EDITOR hx
+set -gx EDITOR /home/cake/.cargo/bin/hx
 set -gx TERMINAL alacritty
 
 if status is-interactive

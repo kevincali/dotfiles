@@ -1,5 +1,6 @@
 // https://github.com/niri-wm/niri/wiki/Configuration:-Window-Rules
 // https://github.com/niri-wm/niri/wiki/Configuration:-Layer-Rules
+// https://docs.rs/regex/latest/regex/#syntax
 
 window-rule {
     geometry-corner-radius 20
@@ -52,6 +53,8 @@ window-rule {
 window-rule {
     // browser extensions are handled in the niri-floating-workaround script
     match app-id="steam" title="Steam Settings"
+    match app-id="Plasticity"
+    exclude app-id="Plasticity" title="Plasticity" // main window
     open-floating true
 }
 
