@@ -1,2 +1,17 @@
 README.md
 LICENSE
+
+{{ if ne .chezmoi.os "darwin" }}
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+.config/autobrowser
+.config/betterfox
+.config/niri
+.ssh
+.local/share/applications
+.local/bin/autobrowser
+.local/bin/niri-floating-workaround
+.local/bin/label
+setup_root
+{{ end }}

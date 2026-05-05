@@ -10,31 +10,10 @@ keybinds {
     }
 
     shared {
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-
-        bind "Alt i" { MoveTab "Left"; }
-        bind "Alt o" { MoveTab "Right"; }
-
-        bind "Alt n" { NewPane; }
-        bind "Alt d" { NewPane "Down"; }
-        bind "Alt r" { NewPane "Right"; }
-
-        bind "Alt x" { CloseFocus; }
-
-        bind "Alt 1" { GoToTab 1; }
-        bind "Alt 2" { GoToTab 2; }
-        bind "Alt 3" { GoToTab 3; }
-        bind "Alt 4" { GoToTab 4; }
-        bind "Alt 5" { GoToTab 5; }
-        bind "Alt 6" { GoToTab 6; }
-        bind "Alt 7" { GoToTab 7; }
-        bind "Alt 8" { GoToTab 8; }
-        bind "Alt 9" { GoToTab 9; }
-
-        bind "Alt f" { ToggleFloatingPanes; }
+        bind "Ctrl h" { MoveFocusOrTab "Left"; }
+        bind "Ctrl l" { MoveFocusOrTab "Right"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
 
         bind "PageUp" { HalfPageScrollUp; }
         bind "PageDown" { HalfPageScrollDown; }
@@ -44,8 +23,5 @@ keybinds {
 pane_frames false
 theme "catppuccin-macchiato"
 default_mode "locked"
-copy_command "wl-copy"
-
 session_serialization true
 scrollback_lines_to_serialize 0
-

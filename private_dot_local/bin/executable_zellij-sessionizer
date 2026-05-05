@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 # Spawns a zellij session in a new terminal from a path read via stdin.
-# Intended for use with: ls-projects | dmenu | zellij-sessionizer
+# Intended for use with: ls-projects | fzf | zellij-sessionizer
+# Instead of fzf you can also use dmenu, choose or similar tools
 
 IFS= read -r path
 [[ -z $path ]] && exit 0
 
 path="${path/#\~/$HOME}"
-name=$(basename "$path")
+parent=$(basename "$(dirname "$path")" | sed 's/^\.//')
+base=$(basename "$path" | sed 's/^\.//')
+name="${parent}_${base}"
 
 zoxide add "$path" &
-cd "$path" && ${TERMINAL:-alacritty} --working-directory "$path" -e zellij --layout code attach --create "$name"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    open -na Ghostty.app --args --working-directory="$path" -e zellij --layout code attach --create "$name"
+else
+    cd "$path" && ghostty --working-directory="$path" -e zellij --layout code attach --create "$name"
+fi

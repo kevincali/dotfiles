@@ -34,6 +34,7 @@ else
     echo "helix already installed, skipping"
 fi
 
+{{ if eq .chezmoi.os "linux" -}}
 echo === Autobrowser ===
 if ! which autobrowser > /dev/null 2>&1; then
     echo "installing autobrowser..."
@@ -43,15 +44,21 @@ if ! which autobrowser > /dev/null 2>&1; then
 else
     echo "autobrowser already installed, skipping"
 fi
+{{ end -}}
 
 echo === Betterfox ===
+{{ if eq .chezmoi.os "linux" -}}
 FIREFOX_DIR="$XDG_CONFIG_HOME/mozilla/firefox"
-USERJS="$FIREFOX_DIR/betterfox.js"
+{{ else if eq .chezmoi.os "darwin" -}}
+FIREFOX_DIR="$HOME/Library/Application Support/Firefox"
+{{ end -}}
+USERJS="$XDG_CONFIG_HOME/mozilla/firefox/betterfox.js"
+
 if [ -f "$USERJS" ]; then
     echo "symlinking Betterfox to all firefox profiles"
-    profiles=$(grep "^Path=" "$FIREFOX_DIR/profiles.ini" | cut -d'=' -f2)
-    if [ -n "$profiles" ]; then
-        for profile in $profiles; do
+    if grep -q '^Path=' "$FIREFOX_DIR/profiles.ini"; then
+        grep '^Path=' "$FIREFOX_DIR/profiles.ini" | cut -d'=' -f2 |
+        while IFS= read -r profile; do
             ln -sfv "$USERJS" "$FIREFOX_DIR/$profile/user.js"
         done
     else
@@ -61,3 +68,15 @@ else
     echo "config not found at $USERJS, skipping"
 fi
 echo
+
+{{ if eq .chezmoi.os "darwin" -}}
+echo === Firefox Profile Apps ===
+mkdir -p "$HOME/Applications"
+osacompile -o "$HOME/Applications/Firefox [Personal].app" <<'APPLESCRIPT'
+do shell script "/Applications/Firefox.app/Contents/MacOS/firefox -P personal -no-remote >/dev/null 2>&1 &"
+APPLESCRIPT
+osacompile -o "$HOME/Applications/Firefox [Work].app" <<'APPLESCRIPT'
+do shell script "/Applications/Firefox.app/Contents/MacOS/firefox -P work -no-remote >/dev/null 2>&1 &"
+APPLESCRIPT
+echo
+{{ end -}}
