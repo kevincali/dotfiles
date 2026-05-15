@@ -1,15 +1,23 @@
 #!/bin/bash
 # This script allows easily switching between desktop usage and couch gaming mode.
-# It turns on my monitor, adjusts the default audio sink and starts Steam Big Picture Mode.
+# It turns on my TV output, adjusts the default audio sink and starts Steam Big Picture Mode.
 # Everything is reverted afterwards.
 
 set -euo pipefail
 
+# Adjust it to match your setup according to the results of these commands:
+# niri msg outputs | grep Output
 TV="DP-1"
+# pactl list sinks | grep Description
+TV_AUDIO_DESCRIPTION="TV"
+DESKTOP_AUDIO_DESCRIPTION="Speakers"
+TV_AUDIO_WAIT_SECONDS=10 # increase this if your TV takes longer
+# id -u
+USER_ID="1000"
 
-# Ensure DISPLAY and NIRI_SOCKET are reachable (needed when invoked over SSH)
-export DISPLAY=${DISPLAY:-":1"}
-export NIRI_SOCKET="${NIRI_SOCKET:-$(find "/run/user/1000" -maxdepth 1 -name 'niri.*.sock' 2>/dev/null | head -1)}"
+# Needed when invoked over SSH.
+export DISPLAY="${DISPLAY:-:1}"
+export NIRI_SOCKET="${NIRI_SOCKET:-$(find "/run/user/$USER_ID" -maxdepth 1 -name 'niri.*.sock' 2>/dev/null | head -1)}"
 
 # Resolve toggle direction
 ACTION="${1:-toggle}"
@@ -20,20 +28,23 @@ fi
 if [[ "$ACTION" == "on" ]]; then
     niri msg output "$TV" on
 
-    # Wait up to 10 s for the TV audio sink to appear
+    # Wait for the TV audio sink to appear
     TV_SINK=""
-    for ((i = 0; i < 20; i++)); do
-        TV_SINK=$(pactl list sinks | awk '/Name:/{name=$2} /Description: TV$/{print name}' | head -1)
+    for ((i = 0; i < TV_AUDIO_WAIT_SECONDS; i++)); do
+        TV_SINK=$(pactl list sinks | awk -v desc="$TV_AUDIO_DESCRIPTION" '/Name:/{name=$2} /^Description: /{sub(/^Description: /, ""); if ($0 == desc) print name}' | head -1)
         [[ -n "$TV_SINK" ]] && break
-        sleep 0.5
+        sleep 1
     done
 
     # Switch audio to TV
-    [[ -n "$TV_SINK" ]] && pactl set-default-sink "$TV_SINK" && \
-        pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$TV_SINK" || \
+    if [[ -n "$TV_SINK" ]]; then
+        pactl set-default-sink "$TV_SINK"
+        pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$TV_SINK"
+    else
         notify-send "Couch Gaming 🛋️🎮" "Warning: TV audio sink not found - switch audio manually"
+    fi
 
-    niri msg action focus-monitor $TV
+    niri msg action focus-monitor "$TV"
     steam steam://open/bigpicture >/dev/null 2>&1  &
     notify-send "Couch Gaming 🛋️🎮" "Enabled"
 
@@ -43,9 +54,13 @@ elif [[ "$ACTION" == "off" ]]; then
     [[ -n "$STEAM_BIG_PICTURE_ID" ]] && niri msg action close-window --id "$STEAM_BIG_PICTURE_ID"
 
     # Switch audio back to Speakers
-    SPEAKERS=$(pactl list sinks | awk '/Name:/{name=$2} /Description: Speakers$/{print name}' | head -1)
-    pactl set-default-sink "$SPEAKERS"
-    pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$SPEAKERS"
+    SPEAKERS=$(pactl list sinks | awk -v desc="$DESKTOP_AUDIO_DESCRIPTION" '/Name:/{name=$2} /^Description: /{sub(/^Description: /, ""); if ($0 == desc) print name}' | head -1)
+    if [[ -n "$SPEAKERS" ]]; then
+        pactl set-default-sink "$SPEAKERS"
+        pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$SPEAKERS"
+    else
+        notify-send "Couch Gaming 🛋️🎮" "Warning: speaker audio sink not found - switch audio manually"
+    fi
 
     niri msg output "$TV" off
 
