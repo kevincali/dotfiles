@@ -2,8 +2,9 @@
 
 spawn-sh-at-startup "qs -c noctalia-shell"
 spawn-sh-at-startup "niri-floating-workaround"
+spawn-sh-at-startup "niri-bar-game-workaround"
 spawn-at-startup "vicinae" "server"
-spawn-at-startup "equibop" "--start-minimized"
+
+spawn-at-startup "thunderbird"
 spawn-at-startup "spotify"
-spawn-at-startup "stretchly"
 spawn-at-startup "Telegram"

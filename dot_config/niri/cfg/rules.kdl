@@ -18,6 +18,7 @@ window-rule {
     match app-id="org.telegram.desktop"
     exclude app-id="org.telegram.desktop" title="Media viewer"
     match app-id="equibop"
+    match app-id="org.mozilla.Thunderbird"
     match app-id="steam" title="Friends List"
     match app-id="teamspeak-client"
     match app-id="FFPWA-01KJ39538QVHMVZD7D1KDWBNFP" title="Open WebUI"
@@ -68,4 +69,25 @@ window-rule {
     match app-id="steam" title="Friends List"
     default-window-height { fixed 500; }
     default-column-width { fixed 720; }
+}
+
+// games
+window-rule {
+    match app-id=r#"steam_app_\d+"#
+    open-maximized false
+    open-maximized-to-edges false
+    open-fullscreen false
+}
+window-rule {
+    match app-id="steam" title="Steam Big Picture Mode"
+    open-on-output "DP-1"
+}
+
+// Open the Firefox picture-in-picture window at the bottom-left corner of the screen
+// with a small gap.
+window-rule {
+    match app-id="firefox" title="Picture-in-Picture"
+
+    open-floating true
+    default-floating-position x=32 y=32 relative-to="bottom-right"
 }

@@ -2,6 +2,7 @@ README.md
 LICENSE
 
 {{ if ne .chezmoi.os "darwin" }}
+.config/rift
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
@@ -11,7 +12,7 @@ LICENSE
 .ssh
 .local/share/applications
 .local/bin/autobrowser
-.local/bin/niri-floating-workaround
+.local/bin/niri*
 .local/bin/label
 setup_root
 {{ end }}

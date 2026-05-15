@@ -9,6 +9,8 @@ binds {
     Mod+Space                           hotkey-overlay-title="Launcher" { spawn-sh "vicinae toggle"; }
     Print                               hotkey-overlay-title="Screenshot Region" { screenshot; }
     Shift+Print                         hotkey-overlay-title="Screenshot Window" { screenshot-window; }
+    Pause                               hotkey-overlay-title="Toggle Mic" { spawn-sh "equibop --toggle-mic"; }
+    Shift+Pause                         hotkey-overlay-title="Toggle Deafen" { spawn-sh "equibop --toggle-deafen"; }
 
     // ─── Applications ───
     // Mod+CTRL+Return                     hotkey-overlay-title="Launcher" { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
@@ -49,10 +51,10 @@ binds {
     // move-window-right -> consume-or-expel-window-right
     // move-window-down  -> move-window-down-or-to-workspace-down
     // move-window-up    -> move-window-up-or-to-workspace-up
-    Mod+CTRL+Left                       { consume-or-expel-window-left; }
-    Mod+CTRL+H                          { consume-or-expel-window-left; }
-    Mod+CTRL+Right                      { consume-or-expel-window-right; }
-    Mod+CTRL+L                          { consume-or-expel-window-right; }
+    Mod+CTRL+Left                       { move-column-left; }
+    Mod+CTRL+H                          { move-column-left; }
+    Mod+CTRL+Right                      { move-column-right; }
+    Mod+CTRL+L                          { move-column-right; }
     Mod+CTRL+UP                         { move-window-up-or-to-workspace-up; }
     Mod+CTRL+K                          { move-window-up-or-to-workspace-up; }
     Mod+CTRL+Down                       { move-window-down-or-to-workspace-down; }
@@ -99,15 +101,15 @@ binds {
     Mod+8                               { focus-workspace 8; }
     Mod+9                               { focus-workspace 9; }
 
-    Mod+CTRL+1                          { move-column-to-workspace 1; }
-    Mod+CTRL+2                          { move-column-to-workspace 2; }
-    Mod+CTRL+3                          { move-column-to-workspace 3; }
-    Mod+CTRL+4                          { move-column-to-workspace 4; }
-    Mod+CTRL+5                          { move-column-to-workspace 5; }
-    Mod+CTRL+6                          { move-column-to-workspace 6; }
-    Mod+CTRL+7                          { move-column-to-workspace 7; }
-    Mod+CTRL+8                          { move-column-to-workspace 8; }
-    Mod+CTRL+9                          { move-column-to-workspace 9; }
+    Mod+Shift+1                          { move-column-to-workspace 1; }
+    Mod+Shift+2                          { move-column-to-workspace 2; }
+    Mod+Shift+3                          { move-column-to-workspace 3; }
+    Mod+Shift+4                          { move-column-to-workspace 4; }
+    Mod+Shift+5                          { move-column-to-workspace 5; }
+    Mod+Shift+6                          { move-column-to-workspace 6; }
+    Mod+Shift+7                          { move-column-to-workspace 7; }
+    Mod+Shift+8                          { move-column-to-workspace 8; }
+    Mod+Shift+9                          { move-column-to-workspace 9; }
 
     Mod+TAB                             { focus-workspace-previous; }
 
@@ -123,6 +125,7 @@ binds {
     // ─── Modes ───
     Mod+T                               { toggle-window-floating; }
     Mod+F                               { fullscreen-window; }
+    Mod+Shift+F                         { toggle-windowed-fullscreen; }
     Mod+W                               { toggle-column-tabbed-display; }
 
     // ─── Screenshots ───

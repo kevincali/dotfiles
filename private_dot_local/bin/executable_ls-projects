@@ -5,21 +5,12 @@
 
 shopt -s nullglob
 
-# Portable array membership check (replaces declare -A, requires bash 4+)
-_in_array() {
-    local e
-    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
-    return 1
-}
-
 found_dirs=(
-    /run/media/*/*
-    ~/.local/bin
     ~/.local/share/applications
-    ~/.local/share/chezmoi
+    ~/.local/share/omarchy
+    ~/.local/bin
     ~/.ssh
-    ~/git/github/*
-    ~/git/azure/*/*
+    /run/media/*/*
 )
 
 for dir in ~/git ~/.config; do
@@ -29,14 +20,19 @@ for dir in ~/git ~/.config; do
     done < <(timeout 0.01s find "$dir" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
 done
 
+declare -A dirs
+for d in "${found_dirs[@]}"; do
+    dirs["$d"]=1
+done
+
 matched=()
 while IFS= read -r d; do
-    _in_array "$d" "${found_dirs[@]}" && matched+=("$d")
+    [[ ${dirs["$d"]} ]] && matched+=("$d")
 done < <(timeout 0.01s zoxide query --list 2>/dev/null)
 
 unmatched=()
 for d in "${found_dirs[@]}"; do
-    _in_array "$d" "${matched[@]}" || unmatched+=("$d")
+    [[ " ${matched[*]} " =~ " $d " ]] || unmatched+=("$d")
 done
 
 printf '%s\n' "${matched[@]}" | sed "s|$HOME|~|g"

@@ -22,7 +22,9 @@ layout {
         pane command="$SHELL"
     }
     tab name="agent" {
-        pane command="opencode"
+        pane command="fence" {
+            args "opencode"
+        }
     }
     swap_floating_layout {
         floating_panes max_panes=1 {

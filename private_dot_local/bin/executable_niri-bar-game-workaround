@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# This script sets the bar to auto-hide when a Steam game is focused.
+set -u
+
+OUTPUT="HDMI-A-1"
+LAST_MODE=""
+
+while true; do
+    WINDOW_JSON="$(niri msg --json focused-window 2>/dev/null || true)"
+    MODE="always_visible"
+
+    if [[ -n "${WINDOW_JSON}" ]] && jq -e '(.app_id? // "") | test("^steam_app_[0-9]+$")' >/dev/null <<<"${WINDOW_JSON}"; then
+        MODE="auto_hide"
+    fi
+
+    if [[ "${MODE}" != "${LAST_MODE}" ]]; then
+        qs -c noctalia-shell ipc call bar setDisplayMode "${MODE}" "${OUTPUT}" >/dev/null 2>&1 || true
+        LAST_MODE="${MODE}"
+    fi
+
+    sleep 0.5
+done

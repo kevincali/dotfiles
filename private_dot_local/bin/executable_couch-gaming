@@ -1,0 +1,62 @@
+#!/bin/bash
+# This script allows easily switching between desktop usage and couch gaming mode.
+# It turns on my monitor, adjusts the default audio sink and starts Steam Big Picture Mode.
+# Everything is reverted afterwards.
+
+set -euo pipefail
+
+TV="DP-1"
+
+# Ensure DISPLAY and NIRI_SOCKET are reachable (needed when invoked over SSH)
+export DISPLAY=${DISPLAY:-":1"}
+export NIRI_SOCKET="${NIRI_SOCKET:-$(find "/run/user/1000" -maxdepth 1 -name 'niri.*.sock' 2>/dev/null | head -1)}"
+
+# Resolve toggle direction
+ACTION="${1:-toggle}"
+if [[ "$ACTION" == "toggle" ]]; then
+    niri msg outputs | grep -A2 "($TV)" | grep -q "Current mode" && ACTION="off" || ACTION="on"
+fi
+
+if [[ "$ACTION" == "on" ]]; then
+    niri msg output "$TV" on
+
+    # Wait up to 10 s for the TV audio sink to appear
+    TV_SINK=""
+    for ((i = 0; i < 20; i++)); do
+        TV_SINK=$(pactl list sinks | awk '/Name:/{name=$2} /Description: TV$/{print name}' | head -1)
+        [[ -n "$TV_SINK" ]] && break
+        sleep 0.5
+    done
+
+    # Switch audio to TV
+    [[ -n "$TV_SINK" ]] && pactl set-default-sink "$TV_SINK" && \
+        pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$TV_SINK" || \
+        notify-send "Couch Gaming 🛋️🎮" "Warning: TV audio sink not found - switch audio manually"
+
+    niri msg action focus-monitor $TV
+    steam steam://open/bigpicture >/dev/null 2>&1  &
+    notify-send "Couch Gaming 🛋️🎮" "Enabled"
+
+elif [[ "$ACTION" == "off" ]]; then
+    # Close Steam Big Picture if open
+    STEAM_BIG_PICTURE_ID=$(niri msg -j windows | jq -r '.[] | select(.app_id == "steam" and .title == "Steam Big Picture Mode") | .id')
+    [[ -n "$STEAM_BIG_PICTURE_ID" ]] && niri msg action close-window --id "$STEAM_BIG_PICTURE_ID"
+
+    # Switch audio back to Speakers
+    SPEAKERS=$(pactl list sinks | awk '/Name:/{name=$2} /Description: Speakers$/{print name}' | head -1)
+    pactl set-default-sink "$SPEAKERS"
+    pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$SPEAKERS"
+
+    niri msg output "$TV" off
+
+    # Close Steam Overview if open
+    sleep 1
+    STEAM_OVERVIEW_ID=$(niri msg -j windows | jq -r '.[] | select(.app_id == "steam" and .title == "Steam") | .id')
+    [[ -n "$STEAM_OVERVIEW_ID" ]] && niri msg action close-window --id "$STEAM_OVERVIEW_ID"
+
+    notify-send "Couch Gaming 🛋️🎮" "Disabled"
+
+else
+    echo "Usage: $(basename "$0") [toggle|on|off]"
+    exit 1
+fi

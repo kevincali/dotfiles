@@ -1,5 +1,5 @@
 keybind = global:alt+enter=new_window
-font-size = 16
+font-size = 13
 confirm-close-surface = false
 
 # new tab
