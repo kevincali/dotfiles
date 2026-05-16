@@ -19,59 +19,67 @@ USER_ID="1000"
 export DISPLAY="${DISPLAY:-:1}"
 export NIRI_SOCKET="${NIRI_SOCKET:-$(find "/run/user/$USER_ID" -maxdepth 1 -name 'niri.*.sock' 2>/dev/null | head -1)}"
 
-# Resolve toggle direction
-ACTION="${1:-toggle}"
-if [[ "$ACTION" == "toggle" ]]; then
-    niri msg outputs | grep -A2 "($TV)" | grep -q "Current mode" && ACTION="off" || ACTION="on"
-fi
+tv_is_on() {
+    niri msg outputs | grep -A2 "($TV)" | grep -q "Current mode"
+}
 
-if [[ "$ACTION" == "on" ]]; then
-    niri msg output "$TV" on
+sink_name() {
+    pactl list sinks | awk -v desc="$1" '
+        /Name:/       { name=$2 }
+        /Description/ { sub(/^[[:space:]]*Description: /, ""); gsub(/[[:space:]]+$/, ""); if ($0 == desc) print name }
+    ' | head -1
+}
 
-    # Wait for the TV audio sink to appear
-    TV_SINK=""
-    for ((i = 0; i < TV_AUDIO_WAIT_SECONDS; i++)); do
-        TV_SINK=$(pactl list sinks | awk -v desc="$TV_AUDIO_DESCRIPTION" '/Name:/{name=$2} /^Description: /{sub(/^Description: /, ""); if ($0 == desc) print name}' | head -1)
-        [[ -n "$TV_SINK" ]] && break
+switch_audio() {
+    local desc="$1" wait="${2:-0}" sink
+
+    for ((i = 0; i <= wait; i++)); do
+        sink=$(sink_name "$desc")
+        [[ -n "$sink" ]] && break
         sleep 1
     done
 
-    # Switch audio to TV
-    if [[ -n "$TV_SINK" ]]; then
-        pactl set-default-sink "$TV_SINK"
-        pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$TV_SINK"
-    else
-        notify-send "Couch Gaming 🛋️🎮" "Warning: TV audio sink not found - switch audio manually"
+    if [[ -z "$sink" ]]; then
+        notify-send "Couch Gaming 🛋️🎮" "Warning: audio sink '$desc' not found - switch audio manually"
+        return
     fi
 
-    niri msg action focus-monitor "$TV"
-    steam steam://open/bigpicture >/dev/null 2>&1  &
-    notify-send "Couch Gaming 🛋️🎮" "Enabled"
+    pactl set-default-sink "$sink"
+    pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$sink"
+}
 
-elif [[ "$ACTION" == "off" ]]; then
-    # Close Steam Big Picture if open
-    STEAM_BIG_PICTURE_ID=$(niri msg -j windows | jq -r '.[] | select(.app_id == "steam" and .title == "Steam Big Picture Mode") | .id')
-    [[ -n "$STEAM_BIG_PICTURE_ID" ]] && niri msg action close-window --id "$STEAM_BIG_PICTURE_ID"
+close_steam_window() {
+    local id
+    id=$(niri msg -j windows | jq -r --arg title "$1" '.[] | select(.app_id == "steam" and .title == $title) | .id')
+    [[ -n "$id" ]] && niri msg action close-window --id "$id"
+}
 
-    # Switch audio back to Speakers
-    SPEAKERS=$(pactl list sinks | awk -v desc="$DESKTOP_AUDIO_DESCRIPTION" '/Name:/{name=$2} /^Description: /{sub(/^Description: /, ""); if ($0 == desc) print name}' | head -1)
-    if [[ -n "$SPEAKERS" ]]; then
-        pactl set-default-sink "$SPEAKERS"
-        pactl list sink-inputs short | awk '{print $1}' | xargs -r -I{} pactl move-sink-input {} "$SPEAKERS"
-    else
-        notify-send "Couch Gaming 🛋️🎮" "Warning: speaker audio sink not found - switch audio manually"
-    fi
-
-    niri msg output "$TV" off
-
-    # Close Steam Overview if open
-    sleep 1
-    STEAM_OVERVIEW_ID=$(niri msg -j windows | jq -r '.[] | select(.app_id == "steam" and .title == "Steam") | .id')
-    [[ -n "$STEAM_OVERVIEW_ID" ]] && niri msg action close-window --id "$STEAM_OVERVIEW_ID"
-
-    notify-send "Couch Gaming 🛋️🎮" "Disabled"
-
-else
-    echo "Usage: $(basename "$0") [toggle|on|off]"
-    exit 1
-fi
+ACTION="${1:-}"
+case "$ACTION" in
+    toggle)
+        tv_is_on && ACTION="off" || ACTION="on"
+        exec "$0" "$ACTION"
+        ;;
+    on)
+        niri msg output "$TV" on
+        switch_audio "$TV_AUDIO_DESCRIPTION" "$TV_AUDIO_WAIT_SECONDS"
+        niri msg action focus-monitor "$TV"
+        steam steam://open/bigpicture >/dev/null 2>&1 &
+        notify-send "Couch Gaming 🛋️🎮" "Enabled"
+        ;;
+    off)
+        close_steam_window "Steam Big Picture Mode"
+        switch_audio "$DESKTOP_AUDIO_DESCRIPTION"
+        niri msg output "$TV" off
+        sleep 1
+        close_steam_window "Steam"
+        notify-send "Couch Gaming 🛋️🎮" "Disabled"
+        ;;
+    status)
+        tv_is_on && echo '{"enabled":true}' || echo '{"enabled":false}'
+        ;;
+    *)
+        echo "Usage: $(basename "$0") on|off|toggle|status"
+        exit 1
+        ;;
+esac
