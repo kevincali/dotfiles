@@ -3,7 +3,7 @@
 
 binds {
     // ─── CUSTOM ───
-    Mod+Return                          hotkey-overlay-title="Terminal" { spawn-sh "$TERMINAL --working-directory $(ycwd $(niri msg --json focused-window | jq .pid))"; }
+    Mod+Return                          hotkey-overlay-title="Terminal" { spawn-sh "$TERMINAL --working-directory=$(ycwd $(niri msg --json focused-window | jq .pid))"; }
     Mod+P                               hotkey-overlay-title="Project" { spawn-sh "ls-projects | vicinae dmenu -p 'Open a project' | zellij-sessionizer"; }
     Mod+E                               hotkey-overlay-title="LLM" { spawn-sh "niri msg action focus-window --id $(niri msg --json windows | jq -r '.[]|select(.app_id==\"FFPWA-01KJ39538QVHMVZD7D1KDWBNFP\").id') || gtk-launch openwebui.desktop"; }
     Mod+Space                           hotkey-overlay-title="Launcher" { spawn-sh "vicinae toggle"; }
