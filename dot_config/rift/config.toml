@@ -161,6 +161,14 @@ workspace_names = []
 #       ]
 app_rules = [
   { app_id = "com.apple.systempreferences", floating = true },
+
+  { app_id = "com.microsoft.teams2", workspace = 0 },
+  { app_id = "com.spotify.client", workspace = 0 },
+  { app_id = "com.tinyspeck.slackmacgap", workspace = 0 },
+  { app_id = "ru.keepcoder.Telegram", workspace = 0 },
+
+  { app_id = "com.mitchellh.ghostty", workspace = 1 },
+  { app_id = "org.mozilla.firefox", workspace = 1 },
 ]
 
 [keys]
