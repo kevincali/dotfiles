@@ -19,7 +19,6 @@ set -gx EDITOR hx
 set -gx TERMINAL ghostty
 
 set -gx PATH "$PATH:$HOME/.cargo/bin"
-set -gx PATH "$PATH:$HOME/.local/bin"
 
 set -gx GOPRIVATE "github.com/kevincali/*"
 set -gx GOPATH "$XDG_DATA_HOME"/go
@@ -39,6 +38,9 @@ if status is-interactive
     end
     if type -q zoxide
         zoxide init fish | source
+    end
+    if type -q fnm
+        fnm env --use-on-cd --shell fish | source
     end
 
     # options

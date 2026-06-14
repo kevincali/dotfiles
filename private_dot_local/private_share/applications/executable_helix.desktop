@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Helix
+Exec=ghostty -e hx %F
+Comment=Open file in Helix
+Terminal=false
+Type=Application
+MimeType=text/plain;text/x-shellscript;text/x-python;text/x-c;text/x-csrc;text/x-chdr;text/x-c++;text/x-c++src;text/x-c++hdr;text/x-java;text/x-script.python;text/x-ruby;text/x-perl;text/x-go;text/rust;text/x-makefile;application/json;application/xml;application/x-yaml;application/x-toml;application/x-shellscript;
+StartupNotify=false
+Categories=Utility;TextEditor;
