@@ -1,0 +1,16 @@
+{{ if eq .chezmoi.os "linux" -}}
+font-size = 13
+{{ else if eq .chezmoi.os "darwin" -}}
+font-size = 16
+{{ end -}}
+
+keybind = global:alt+enter=new_window
+confirm-close-surface = false
+notify-on-command-finish = always
+
+# new tab
+keybind = super+t=unbind
+# new split
+keybind = super+d=unbind
+# new window
+keybind = super+n=unbind

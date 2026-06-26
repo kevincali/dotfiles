@@ -24,8 +24,9 @@ set -gx PATH "$PATH:$HOME/.local/bin"
 set -gx GOPRIVATE "github.com/kevincali/*"
 set -gx GOPATH "$XDG_DATA_HOME"/go
 
+{{ if eq .chezmoi.os "linux" -}}
 {{ (rbw "~/.config/fish/config.fish").notes -}}
-{{ if eq .chezmoi.os "darwin" }}
+{{ else if eq .chezmoi.os "darwin" -}}
 {{ (rbw "~/.config/fish/work.fish").notes -}}
 {{ end }}
 
