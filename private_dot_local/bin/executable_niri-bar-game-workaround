@@ -1,22 +1,82 @@
 #!/usr/bin/env bash
-# This script sets the bar to auto-hide when a Steam game is focused.
+# Auto-hide bar while any Steam game window is running.
+# Steam launches games via "reaper SteamLaunch AppId=<id>", so we detect that
+# by walking each niri window's process tree up to a reaper launch command.
 set -u
 
-OUTPUT="HDMI-A-1"
+OUTPUT="${1:-HDMI-A-1}"
 LAST_MODE=""
 
+has_steam_game_ancestor() {
+    local pid=$1
+    while [[ "${pid}" -gt 1 ]]; do
+        if [[ -r "/proc/${pid}/cmdline" ]]; then
+            local cmdline
+            cmdline=$(tr '\0' ' ' < "/proc/${pid}/cmdline" 2>/dev/null || true)
+            if [[ "${cmdline}" =~ reaper[[:space:]]+SteamLaunch[[:space:]]+AppId=[0-9]+ ]]; then
+                return 0
+            fi
+        fi
+        local ppid
+        ppid=$(awk '/^PPid:/{print $2}' "/proc/${pid}/status" 2>/dev/null || echo 1)
+        [[ "${ppid}" == "${pid}" ]] && break
+        pid=${ppid}
+    done
+    return 1
+}
+
+set_bar_mode() {
+    local mode=$1
+    if [[ "${mode}" != "${LAST_MODE}" ]]; then
+        qs -c noctalia-shell ipc call bar setDisplayMode "${mode}" "${OUTPUT}" >/dev/null 2>&1 || true
+        LAST_MODE="${mode}"
+    fi
+}
+
+update_from_windows() {
+    local pids=$1
+    local found=0
+    local pid
+    for pid in ${pids}; do
+        if has_steam_game_ancestor "${pid}"; then
+            found=1
+            break
+        fi
+    done
+
+    if [[ "${found}" -eq 1 ]]; then
+        set_bar_mode "auto_hide"
+    else
+        set_bar_mode "always_visible"
+    fi
+}
+
+# ponytail: smallest runnable check for the matcher logic
+if [[ "${TEST_NIRI_BAR:-}" == "1" ]]; then
+    sample="/home/cake/.local/share/Steam/ubuntu12_32/reaper SteamLaunch AppId=12345 -- foo"
+    if [[ ! "${sample}" =~ reaper[[:space:]]+SteamLaunch[[:space:]]+AppId=[0-9]+ ]]; then
+        echo "regex failed" >&2
+        exit 1
+    fi
+    if has_steam_game_ancestor $$; then
+        echo "false positive on own shell" >&2
+        exit 1
+    fi
+    echo "ok"
+    exit 0
+fi
+
+# Catch windows already present when the script starts.
+init_pids=$(niri msg -j windows 2>/dev/null | jq -r '.[].pid' || true)
+[[ -n "${init_pids}" ]] && update_from_windows "${init_pids}"
+
 while true; do
-    WINDOW_JSON="$(niri msg --json focused-window 2>/dev/null || true)"
-    MODE="always_visible"
-
-    if [[ -n "${WINDOW_JSON}" ]] && jq -e '(.app_id? // "") | test("^steam_app_[0-9]+$")' >/dev/null <<<"${WINDOW_JSON}"; then
-        MODE="auto_hide"
-    fi
-
-    if [[ "${MODE}" != "${LAST_MODE}" ]]; then
-        qs -c noctalia-shell ipc call bar setDisplayMode "${MODE}" "${OUTPUT}" >/dev/null 2>&1 || true
-        LAST_MODE="${MODE}"
-    fi
-
-    sleep 0.5
+    while IFS= read -r line; do
+        [[ -z "${line}" ]] && continue
+        pids=$(jq -r 'select(.WindowsChanged) | .WindowsChanged.windows[].pid' <<< "${line}" 2>/dev/null || true)
+        [[ -z "${pids}" ]] && continue
+        update_from_windows "${pids}"
+    done < <(niri msg -j event-stream 2>/dev/null)
+    # Stream died (e.g. niri restarted); wait and reconnect.
+    sleep 2
 done

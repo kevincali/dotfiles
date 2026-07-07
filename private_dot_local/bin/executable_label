@@ -15,7 +15,7 @@ usage() {
     echo "  dhl         after conversion on https://paketikett.de"
     echo "  post        downloaded directly from Deutsche Post"
     echo "  kleinpaket  DIN A6 DHL Kleinpaket"
-    echo "  filament    smaller label from https://3dfilamentprofiles.com"
+    echo "  filament    compact (40mm * 25mm) .png label from https://3dfilamentprofiles.com"
     echo "  text        print arbitrary text"
     exit 1
 }

@@ -1,41 +1,33 @@
 # See https://git-scm.com/docs/git-config
 
-[alias]
-	co = checkout
-	br = branch
-	ci = commit
-	st = status
-[init]
-	defaultBranch = master
-[pull]
-	rebase = true 			 # Rebase (instead of merge) on pull
-[push]
-	autoSetupRemote = true   # Automatically set upstream branch on push
+[branch]
+	sort = -committerdate    # Sort branches by most recent commit first
+[commit]
+	verbose = true           # Include diff comment in commit message template
+	gpgsign = true           # Always sign commits
+[column]
+	ui = auto 			     # Output in columns when possible
 [diff]
 	algorithm = histogram    # Clearer diffs on moved/edited lines
 	colorMoved = plain       # Highlight moved blocks in diffs
 	mnemonicPrefix = true    # More intuitive refs in diff output
-[commit]
-	verbose = true           # Include diff comment in commit message template
-[column]
-	ui = auto 			     # Output in columns when possible
-[branch]
-	sort = -committerdate    # Sort branches by most recent commit first
-[tag]
-	sort = -version:refname  # Sort version numbers as you would expect
+[init]
+	defaultBranch = main     # Default branch
+[pull]
+	ff = only                # Fast forward instead of merge
+[push]
+	autoSetupRemote = true   # Automatically set upstream branch on push
 [rerere]
 	enabled = true           # Record and reuse conflict resolutions
 	autoupdate = true        # Apply stored conflict resolutions automatically
+[tag]
+	sort = -version:refname  # Sort version numbers as you would expect
 
 # custom
 [user]
 	name = Kevin Cali
 	email = 20154415+kevincali@users.noreply.github.com
 	signingkey = A69480D38F1DAB3AD43306F8E1A4CD4C4C75C551
-[init]
-	defaultBranch = main
-[commit]
-	gpgsign = true
 [core]
 	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/personal -F none"
 	hooksPath = /home/cake/.config/git/hooks/
@@ -43,3 +35,4 @@
 
 [url "ssh://git@github.com/"]
     insteadOf = https://github.com/
+
