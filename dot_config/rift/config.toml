@@ -167,7 +167,6 @@ app_rules = [
   { app_id = "com.tinyspeck.slackmacgap", workspace = 0 },
   { app_id = "ru.keepcoder.Telegram", workspace = 0 },
 
-  { app_id = "com.mitchellh.ghostty", workspace = 1 },
   { app_id = "org.mozilla.firefox", workspace = 1 },
 ]
 
@@ -254,7 +253,7 @@ app_rules = [
 "Alt + Slash" = "toggle_orientation"
 "Alt + Ctrl + E" = "unjoin_windows"
 
-"Alt + Shift + Space" = "toggle_window_floating"
+"Alt + Space" = "toggle_window_floating"
 "Alt + F" = "toggle_fullscreen"
 "Alt + Shift + F" = "toggle_fullscreen_within_gaps"
 "Alt + Shift + Ctrl + Space" = "toggle_focus_floating" # briefly bring focus to floating window
