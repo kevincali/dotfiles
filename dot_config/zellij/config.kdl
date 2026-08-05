@@ -4,6 +4,8 @@ keybinds {
     unbind "Ctrl g"
     normal {
         bind "Ctrl m" { SwitchToMode "locked"; }
+        bind "Ctrl i" { MoveTab "Left"; }
+        bind "Ctrl o" { MoveTab "Right"; }
     }
     locked {
         bind "Ctrl m" { SwitchToMode "normal"; }

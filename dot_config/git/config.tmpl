@@ -29,10 +29,20 @@
 	email = 20154415+kevincali@users.noreply.github.com
 	signingkey = A69480D38F1DAB3AD43306F8E1A4CD4C4C75C551
 [core]
-	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/personal -F none"
-	hooksPath = /home/cake/.config/git/hooks/
-	excludesfile = /home/cake/.config/git/ignore
+	hooksPath = ~/.config/git/hooks/
+	excludesfile = ~/.config/git/ignore
 
 [url "ssh://git@github.com/"]
     insteadOf = https://github.com/
+
+{{ if eq .chezmoi.os "linux" -}}
+[core]
+	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/personal -F none"
+{{ else if eq .chezmoi.os "darwin" -}}
+[core]
+	sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/work -F none"
+
+[includeIf "gitdir:~/git/azure/"]
+    path = ~/git/azure/.gitconfig
+{{ end -}}
 
