@@ -23,6 +23,7 @@ set -gx GOPATH "$XDG_DATA_HOME"/go
 
 set -gx PATH "$PATH:$GOPATH/bin"
 set -gx PATH "$PATH:$HOME/.cargo/bin"
+set -gx PATH "$PATH:$XDG_CACHE_HOME/.bun/bin"
 set -gx PATH "$PATH:$HOME/.local/bin"
 
 {{ if eq .chezmoi.os "linux" -}}
